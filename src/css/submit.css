@@ -1,0 +1,15 @@
+.OKAY{
+    background-color: #00AAEE;
+    height: 10%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    font-weight: bold;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.Main{
+    font-size: 10%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
