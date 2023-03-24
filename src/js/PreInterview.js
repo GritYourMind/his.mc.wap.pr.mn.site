@@ -35,17 +35,6 @@ function submit(Answer){
 }
 
 function PreInterview(){
-    /* 값 가져오기
-    const url = "https://bcexternal.cbnuh.or.kr/MC/Pre_InterView_DEV/api/Interface";
-    const [questions, setQuestions] = useState(null);
-    async function fetchData(){
-        const response = await fetch(url);
-        response.text().then((value)=>{
-            setQuestions(JSON.parse(value));
-        });
-    }
-    */
-
     const outerDivRef = useRef();
     const [scrollIndex, setScrollIndex] = useState(1);
     useEffect(() => {
