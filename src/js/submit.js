@@ -1,28 +1,19 @@
 import React,{useEffect} from 'react';
-import Getparam from '../urlConnection';
+import useFetch from '../hooks/useFetch';
 
 function Submit() {
-  useEffect(() =>{
-    const data = [
-        {
-            "method": "SelectPreMediIntroPageInfo"
-        },
-        {
-            "HSP_TP_CD": "01",
-            "MDRC_ID": "2"
-        }
-    ];
-
-    Getparam(data, (result) => {
-        //console.log(result);
-        const tmp = result.map((n)=>n);
-
-        const reusltjson = JSON.stringify(result);
-        console.log(reusltjson);
-    });
-},[]);
 
 
+const data = useFetch([{
+              "method": "SelectPreMediIntroPageInfo"
+          },
+          {
+              "HSP_TP_CD": "01",
+              "MDRC_ID": "2"
+          }]);
+
+          
+ console.log(data);
   return (
     <div>
       <h1>Results</h1>

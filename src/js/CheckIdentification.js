@@ -1,5 +1,5 @@
 
-import React from 'react';
+import {React, useEffect} from 'react';
 import HomeHeader from '../js/Header';
 import '../css/CheckIdentification.css'
 import '../App.css'
@@ -15,13 +15,17 @@ const med_dept_nm = "_MED_DEPT_NM";
 //pt_no = introInfo.pt_no;
 function CheckIdentification() {
 
-    //const introInfo = useFetch("https://bcexternal.cbnuh.or.kr/mc/pre_interview_stg/api/interface"
-    //                    ,"[{method:\"SelectPreMediIntroPageInfo\"},{HSP_TP_CD:\"01\", MDRC_ID:\"2\"}]" );
-
     
-    const introInfo = useFetch("http://localhost:3000/data");
+const data = useFetch([{
+    "method": "SelectPreMediIntroPageInfo"
+},
+{
+    "HSP_TP_CD": "01",
+    "MDRC_ID": "2"
+}]);
 
-    
+
+console.log(data);
 
     return(
         <div >

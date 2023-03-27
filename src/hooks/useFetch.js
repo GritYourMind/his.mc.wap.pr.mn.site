@@ -1,32 +1,26 @@
 
 import { useEffect, useState } from "react";
 
-
-export default function useFetch(url, inbody){
+export default function useFetch(inbody){
     const [data, setData] = useState([]);
-    console.log("url:"+url);
-    console.log("inbody:"+inbody);
 
     useEffect(() => {
-        fetch(url, {
-            method:'POST',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-                inbody
-                
-            })
-        })
-        .then(res => {
-            return res.json();
-        })
+        fetch('/bcexternal', {
+            method: 'POST',
+            body: JSON.stringify(inbody),
+            headers: {
+                'Content-Type': 'application/json'
+                }
+            }
+        )
+        .then(response => response.json())
         .then(data => {
             setData(data);
         })
-    },[url]);
+        .catch(error => {
+        console.error(error);
+        });
+    },[]);
 
-    console.log(data);
     return data;
 }
