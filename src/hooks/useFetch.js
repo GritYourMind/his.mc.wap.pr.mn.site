@@ -1,10 +1,10 @@
 
-import { useEffect, useState } from "react";
 
-export default function useFetch(inbody){
-    const [data, setData] = useState([]);
+export default function useFetch(data, inbody){
+     //const [data, setData] = useState([]);
+ 
 
-    useEffect(() => {
+    //useEffect(() => {
         fetch('/bcexternal', {
             method: 'POST',
             body: JSON.stringify(inbody),
@@ -13,14 +13,15 @@ export default function useFetch(inbody){
                 }
             }
         )
-        .then(response => response.json())
-        .then(data => {
-            setData(data);
+        .then(response => 
+             response.json())
+        .then(d => {
+            data = d;
         })
         .catch(error => {
-        console.error(error);
+            console.error(error);
         });
-    },[]);
+    //},[]);
 
-    return data;
+    //return data;
 }
