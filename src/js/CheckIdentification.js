@@ -14,6 +14,7 @@ function CheckIdentification() {
     const hsp_tp_cd = (getUrlParam(window.location, "HSP_TP_CD"));
     const mdrc_id = (getUrlParam(window.location, "MDRC_ID"));
 
+
     //fetch data
     const [pt_no, setPtno] = useState("");
     const [pt_nm, setPtnm] = useState("");
@@ -22,12 +23,61 @@ function CheckIdentification() {
 
     //valiable
     const [txt_birth_dt, setBirthDate]= useState("");
+
+
      //#endregion
 
 
      //#region function
 
+
+     function isBirthday(dateStr) {
+
+        dateStr = dateStr.replace(/-/g,"");
+
+        var year = Number(dateStr.substr(0,4)); // 입력한 값의 0~4자리까지 (연)
+        var month = Number(dateStr.substr(4,2)); // 입력한 값의 4번째 자리부터 2자리 숫자 (월)
+        var day = Number(dateStr.substr(6,2)); // 입력한 값 6번째 자리부터 2자리 숫자 (일)
+        var today = new Date(); // 날짜 변수 선언
+    
+        if (dateStr.length <=8) {
+        
+            if (month < 1 || month > 12) {
+                return false;
+            } else if (day < 1 || day > 31) {
+                return false;
+            } else if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+                return false;
+            } else if (month == 2) {
+    
+                var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                if (day>29 || (day==29 && !isleap)) {
+                    return false;
+                } else {
+                    return true;
+                } //end of if (day>29 || (day==29 && !isleap))
+            } else {
+                return true;
+            }//end of if
+        }
+        else {
+            //1.입력된 생년월일이 8자 초과할때 :  auth:false
+            return false;
+        }
+    }
+
      function checkIdentification(in_birth_dt){
+
+        //console.log(hsp_tp_cd);
+        //console.log(mdrc_id);
+
+        //sconsole.log(in_birth_dt.length);
+
+        if(!isBirthday(in_birth_dt)){
+            alert("생년월일을 확인해주세요.");
+            return;
+        }
+
         
         const data = [
             {
@@ -36,7 +86,7 @@ function CheckIdentification() {
             {
                 "HSP_TP_CD": hsp_tp_cd,
                 "MDRC_ID": mdrc_id,
-                "BIRTH_DT": in_birth_dt
+                "BIRTH_DT": in_birth_dt.replace(/-/gi,"")
             }
         ];
 
@@ -49,11 +99,43 @@ function CheckIdentification() {
         });
      }
 
-     //#endregion
-     
 
-    useEffect(() =>{
+     const handleBirthDt = (e) => {
         
+        const value = e.target.value.replace(/\D+/g, "");
+        const numberLength = 8;
+    
+        let result;
+        result = "";  
+    
+        for (let i = 0; i < value.length && i < numberLength; i++) {
+          switch (i) {
+            case 4:
+              result += "-";
+              break;
+            case 6:
+              result += "-";
+              break;
+    
+            default:
+              break;
+          }
+    
+          result += value[i];
+        }
+
+        e.target.value = result;
+    
+        
+    
+        setBirthDate(result); 
+      };
+
+
+
+     //#endregion
+    
+    useEffect(() =>{
         const data = [
             {
                 "method": "SelectPreMediIntroPageInfo"
@@ -65,7 +147,8 @@ function CheckIdentification() {
         ];
     
         getFetchData(data, (result) => {
-            result.map(n => (
+            
+            result?.map((n) => (
                  setPtno(n.PT_NO),
                  setPtnm(n.PT_NM),
                  setMedDt(n.MED_DT),
@@ -77,51 +160,66 @@ function CheckIdentification() {
 
     return(
         
-        <div >
-            <HomeHeader/>
-            <div className='ChkIdent-holizonAlign'>
-                <div className='ChkIdent-green'>
-                    {pt_nm}
-                </div>
-                <div className='ChkIdent-default'>
-                    님 안녕하세요
-                </div>
-            </div>
+        <div className='div-main'>
             
+            <HomeHeader/>
 
-            <div className='ChkIdent-default'>
-                {med_dt} {med_dept_nm}
+            <div className='div-verticalAlign'>
+                <div className='div-holizonAlign-left'>
+                    <div className='font-green' >
+                        {pt_nm}
+                    </div>
+                    <div className='font-default'>
+                        님 안녕하세요
+                    </div>
+                </div>
+
+                <div className='div-holizonAlign-left'>
+                    <div className='font-default'>
+                        {med_dt} {med_dept_nm}
+                    </div>
+                </div>
+
+                <div className='font-default'>
+                    사전문진을 시작합니다.
+                </div>
             </div>
 
-            <div className='ChkIdent-default'>
-                사전문진을 시작합니다.
-            </div>
+            <br/>
 
-            <div className='display-enter'/>
-
-            <div className='ChkIdent-holizonAlign'>
-                <div className='ChkIdent-default'>
-                    본인확인을 위해 
-                </div>
-                <div className='ChkIdent-green'>
-                     생년월일
-                </div>
-                <div className='ChkIdent-default'>
-                    을 입력해주세요.
+            <div className='div-verticalAlign'>
+                <div className='div-holizonAlign-left' >
+                    <div className='font-default'>
+                        본인확인을 위해 
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <input type="number" value={txt_birth_dt} onChange={e => {
-                    setBirthDate(e.target.value);
+            <div className='div-verticalAlign'>
+                <div className='div-holizonAlign-left'>
+                    <div className='font-green'>
+                        생년월일
+                    </div>
+                    <div className='font-default'>
+                        을 입력해주세요.
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+
+            <div className='div-verticalAlign'>
+                <input className='input-text' type="text" value={txt_birth_dt}  placeholder="생년월일 8자(YYYY-MM-DD)" onChange={e => {
+                    handleBirthDt(e);
                 }}/>
+                <div className='div-line'/>
             </div>
-            <div>
-                <button className='ChkIdent-okey' onClick={
+            <div className='div-holizonAlign-center'>
+                <button className='button-okey' onClick={
                     e => {
                         checkIdentification(txt_birth_dt);
                     }
-                }>확인</button>
+                }>확 인</button>
             </div> 
         </div>
     )

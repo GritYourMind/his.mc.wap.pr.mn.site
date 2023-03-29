@@ -1,6 +1,6 @@
 
 const getFetchData = async(data, callback) => {
-    fetch("/bcexternal", {
+    fetch('/bcexternal', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
