@@ -35,10 +35,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 80px;
+    font-size: 2vw;
     white-space: pre-wrap;
   }
-  
+
   .bg-yellow {
     background-color: #f7f6cf;
   }

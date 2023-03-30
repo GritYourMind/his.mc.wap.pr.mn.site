@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Submit from './js/submit'
+import Submit from './js/Submit'
 import CheckIdentification from './js/CheckIdentification';
+import PreInterview from './js/PreInterview';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CheckIdentification />
+    <PreInterview />
   </React.StrictMode>
 );
 
