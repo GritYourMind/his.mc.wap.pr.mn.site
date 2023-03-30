@@ -1,14 +1,25 @@
 
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import hospSymbol from '../img/H1_01.jpg';
 import hospKrNm from '../img/H1_02.jpg';
+import '../css/Header.css';
 
 function Header(){
+    const [innerWidth , setInnerWidth] = useState();
+    const [innerHeight , setInnerHeight] = useState();
+
+    useEffect(() => {
+
+        setInnerWidth(window.innerWidth);
+        setInnerHeight(window.innerHeight);
+
+    },[]);
+
     return(
-        <div>
-            <img src={hospSymbol} width={window.innerWidth/25}/>
-            <img src={hospKrNm} width={window.innerWidth/5}/>
+        <div className='div_main'>
+            <img src={hospSymbol} width={innerWidth/15}/>
+            <img src={hospKrNm} width={innerWidth*5/15} />
         </div>        
     )
 }
