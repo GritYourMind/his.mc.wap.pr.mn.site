@@ -95,6 +95,10 @@ function PreInterview(){
     const [scrollIndex, setScrollIndex] = useState(1);
 
     useEffect(() => {
+        
+
+
+
         const data = [
             {
                 "method": "SelectPreMediQuesionList"
