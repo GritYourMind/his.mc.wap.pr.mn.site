@@ -1,5 +1,4 @@
-import React,{useEffect} from 'react';
-import '../css/PreInterview.css';
+import React from 'react';
 
 function Submit() { 
   return (
