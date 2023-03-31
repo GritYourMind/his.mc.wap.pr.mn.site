@@ -1,11 +1,10 @@
 
-import {React, useState,useEffect} from 'react';
-import HomeHeader from '../js/Header';
+import {React, useState,useEffect, useParams} from 'react';
 import '../css/CheckIdentification.css'
 import '../App.css'
 import getUrlParam from '../hooks/getUrlParameter';
 import getFetchData from '../hooks/getFetchData';
-
+import {useNavigate} from 'react-router-dom';
 
 function CheckIdentification() {
 
@@ -13,6 +12,8 @@ function CheckIdentification() {
     //url param
     const hsp_tp_cd = (getUrlParam(window.location, "HSP_TP_CD"));
     const mdrc_id = (getUrlParam(window.location, "MDRC_ID"));
+
+
 
 
     //fetch data
@@ -24,11 +25,32 @@ function CheckIdentification() {
     //valiable
     const [txt_birth_dt, setBirthDate]= useState("");
 
+    const [login_chk_yn, setLoginCheckYN] = useState("N");
+
+    //navigate
+    const navigate = useNavigate();
+
 
      //#endregion
 
 
      //#region function
+
+
+
+
+
+     function routePreinterview(in_chk_yn){
+
+        console.log("routePreinterview called");
+        console.log("in_chk_yn : " + in_chk_yn);
+        if(in_chk_yn != "Y")
+        {
+            return;
+        }
+
+        navigate("/Preinterview");
+     }
 
 
      function isBirthday(dateStr) {
@@ -93,7 +115,7 @@ function CheckIdentification() {
 
         getFetchData(data, (result) => {
             result.map(n => (
-                 console.log(n.LOGIN_CHK)
+                routePreinterview(checkIdentification(n.LOGIN_CHK))
             )
             );
         });
@@ -162,8 +184,6 @@ function CheckIdentification() {
         
         <div className='div-main'>
             
-            <HomeHeader/>
-
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
                     <div className='font-green' >
@@ -180,8 +200,10 @@ function CheckIdentification() {
                     </div>
                 </div>
 
-                <div className='font-default'>
-                    사전문진을 시작합니다.
+                <div className='div-holizonAlign-left'>
+                    <div className='font-default'>
+                        사전문진을 시작합니다.
+                    </div>
                 </div>
             </div>
 
