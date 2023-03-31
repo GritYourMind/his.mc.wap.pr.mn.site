@@ -22,6 +22,13 @@ function CheckIdentification() {
     const [med_dt, setMedDt] = useState("");
     const [med_dept_nm, setMedDeptNm] = useState("");
 
+    const [med_rsv_dtm, setMedRsvDtm] = useState("");
+    const [mdrc_fom_seq, setMdrcFomSeq] = useState("");
+    const [mdfm_id, setMdfmId] = useState("");
+    const [mdfm_fom_seq, setMdfmFomSeq] = useState("");
+
+    
+
     //valiable
     const [txt_birth_dt, setBirthDate]= useState("");
 
@@ -42,14 +49,27 @@ function CheckIdentification() {
 
      function routePreinterview(in_chk_yn){
 
-        console.log("routePreinterview called");
-        console.log("in_chk_yn : " + in_chk_yn);
+        //console.log("routePreinterview called");
+        //console.log("in_chk_yn : " + in_chk_yn);
         if(in_chk_yn != "Y")
         {
             return;
         }
 
-        navigate("/Preinterview");
+        navigate("/preinterview",{
+            state: {
+                hsp_tp_cd:hsp_tp_cd ,
+                mdrc_id:mdrc_id,
+                med_dept_nm:med_dept_nm,
+                med_dt:med_dt,
+                rsv_dtm:med_rsv_dtm,
+                pt_no:pt_no,
+                pt_nm:pt_nm,
+                mdrc_fom_seq:mdrc_fom_seq,
+                mdfm_id:mdfm_id,
+                mdfm_fom_seq:mdfm_fom_seq
+            }
+          });
      }
 
 
@@ -93,7 +113,7 @@ function CheckIdentification() {
         //console.log(hsp_tp_cd);
         //console.log(mdrc_id);
 
-        //sconsole.log(in_birth_dt.length);
+        console.log(in_birth_dt.replace(/-/g,""));
 
         if(!isBirthday(in_birth_dt)){
             alert("생년월일을 확인해주세요.");
@@ -115,7 +135,8 @@ function CheckIdentification() {
 
         getFetchData(data, (result) => {
             result.map(n => (
-                routePreinterview(checkIdentification(n.LOGIN_CHK))
+                
+                routePreinterview(n.LOGIN_CHK)
             )
             );
         });
@@ -174,7 +195,13 @@ function CheckIdentification() {
                  setPtno(n.PT_NO),
                  setPtnm(n.PT_NM),
                  setMedDt(n.MED_DT),
-                 setMedDeptNm(n.MED_DEPT_NM)
+                 setMedDeptNm(n.MED_DEPT_NM),
+                 setMedRsvDtm(n.MED_RSV_DTM),
+                 setMdrcFomSeq(n.MDRC_FOM_SEQ),
+                 setMdfmId(n.MDFM_ID),
+                 setMdfmFomSeq(n.MDFM_FOM_SEQ)
+
+
             )
             );
         });
