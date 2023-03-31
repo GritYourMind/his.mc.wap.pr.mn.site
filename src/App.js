@@ -20,7 +20,7 @@ function App() {
         <Route path="/ident" element={<CheckIdentification/>}></Route>
         <Route path="/preinterview" element={<PreInterview/>}></Route>
         <Route path="/submit" element={<Submit/>}></Route>
-        <Route path="/" element={<EmptyPage/>}></Route>
+        <Route path="/*" element={<EmptyPage/>}></Route>
         
       </Routes>
     </BrowserRouter>
