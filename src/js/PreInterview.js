@@ -4,6 +4,7 @@ import getFetchData from '../hooks/getFetchData';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import Submit from './Submit';
+import { useLocation } from 'react-router-dom';
 
 const DIVIDER_HEIGHT = 5;
 let Ques_num;
@@ -84,6 +85,10 @@ function submit(){
 }
 
 function PreInterview(){
+
+    
+    const location = useLocation();
+
     
     const [questions, setQuestions] = useState();
     const outerDivRef = useRef();
@@ -95,9 +100,9 @@ function PreInterview(){
                 "method": "SelectPreMediQuesionList"
             },
             {
-                "HSP_TP_CD": "01",
-                "MDFM_ID": "100",
-                "MDFM_FOM_SEQ":1
+                "HSP_TP_CD": location.state.hsp_tp_cd,
+                "MDFM_ID": location.state.mdfm_id,
+                "MDFM_FOM_SEQ":location.state.mdfm_fom_seq
             }
         ];
 
