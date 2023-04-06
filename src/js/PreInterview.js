@@ -98,7 +98,22 @@ function PreInterview(){
     const [questions, setQuestions] = useState();
     const outerDivRef = useRef();
     const [scrollIndex, setScrollIndex] = useState(1);
-    const [startY,setStartY] = useState();
+
+    const [progress, setProgress] = useState();
+
+    const preventClose = (e) => {
+        e.preventDefault();
+        e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+      };
+    useEffect(() => {
+    (() => {
+        window.addEventListener("beforeunload", preventClose);
+    })();
+    
+    return () => {
+        window.removeEventListener("beforeunload", preventClose);
+    };
+    }, []);
 
     useEffect(() => {
         
@@ -158,69 +173,14 @@ function PreInterview(){
             }
           };
 
-        //   const touchStartHandler = (e) => {
-        //     // 터치 시작점을 저장
-        //     setStartY(e.touches[0].clientY);
-        //   };
-          
-        //   const touchMoveHandler = (e) => {
-        //     // 터치 이벤트에 따른 로직 구현
-        //     const { changedTouches } = e;
-        //     if (changedTouches.length === 1) {
-        //       // 단일 터치 이벤트인 경우에만 처리하도록 설정
-        //       const { clientY } = changedTouches[0];
-        //       const { scrollTop } = outerDivRef.current;
-        //       const pageHeight = window.innerHeight; // document.documentElement.clientHeight;
-
-        //       // 터치 이벤트의 방향에 따라 스크롤 처리
-        //       if (Math.round(clientY) < Math.round(startY)) {
-        //         console.log("down");
-        //         // 아래로 터치 이벤트인 경우
-        //         for (let i = 1; i <= Ques_num; i++) {
-        //           if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
-        //             const p = i === Ques_num ? i - 1 : i;
-          
-        //             outerDivRef.current.scrollTo({
-        //               top: Math.round(pageHeight * p) ,
-        //               left: 0,
-        //               behavior: "smooth",
-        //             });
-        //             setScrollIndex(p);
-        //           }
-        //         }
-        //       } else if (Math.round(clientY) > Math.round(startY)) {
-        //         console.log("up");
-        //         // 위로 터치 이벤트인 경우
-        //         for (let i = 1; i <= Ques_num; i++) {
-        //           if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
-        //             const p = i === 1 ? i : i - 1;
-          
-        //             outerDivRef.current.scrollTo({
-        //               top: Math.round(pageHeight * (p - 1)) ,
-        //               left: 0,
-        //               behavior: "smooth",
-        //             });
-        //             setScrollIndex(p);
-        //           }
-        //         }
-        //       }
-        //     }
-        //   };
-
           const outerDivRefCurrent = outerDivRef.current;
 
           outerDivRefCurrent.addEventListener("wheel", wheelHandler);
-        //   outerDivRefCurrent.addEventListener("touchstart",touchStartHandler);
-        //   outerDivRefCurrent.addEventListener("touchmove",touchMoveHandler);
 
           return () => {
             outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
-            // outerDivRefCurrent.removeEventListener("touchstart",touchStartHandler);
-            // outerDivRefCurrent.removeEventListener("touchmove",touchMoveHandler);
           };
     },[]);
-
-    const [progress, setProgress] = useState(0);
 
     useEffect(() => {      
       const interval = setInterval(() => {
