@@ -18,8 +18,8 @@ function Header(){
 
     return(
         <div className='div_main'>
-            <img src={hospSymbol} width={innerWidth/15}/>
-            <img src={hospKrNm} width={innerWidth*5/15} />
+            <img src={hospSymbol} width={innerWidth/10}/>
+            <img src={hospKrNm} width={innerWidth*5/10} />
         </div>        
     )
 }

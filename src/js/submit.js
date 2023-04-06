@@ -1,13 +1,32 @@
 import React from 'react';
+import '../App.css'
+import '../css/CheckIdentification.css'
+import '../css/submit.css'
 
 function Submit() { 
-  return (
-    <div className='header'>
-      <h1>Results</h1>
-      <p className='Main'>사전문진이 완료되었습니다.<br/>감사합니다.</p>
-      <button className='OKAY'>확 인</button>
 
+  return (
+    <div className='div-main text'>
+      <div className='div-verticalAlign'>
+        <div className='div-holizonAlign-left'>
+          <div className='font-green' >사전문진</div>
+          <div className='font-default'>
+              이 완료되었습니다.
+          </div>
+        </div>
+
+        <div className='div-holizonAlign-left'>
+                    <div className='font-default'>
+                        감사합니다.
+                    </div>
+                </div>
+      </div>
+
+      {/* <div className='div-holizonAlign-center'>
+          <button className='button-okey'>확 인</button>
+      </div>  */}
     </div>
+    
   );
 }
 

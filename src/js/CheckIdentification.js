@@ -53,6 +53,7 @@ function CheckIdentification() {
         //console.log("in_chk_yn : " + in_chk_yn);
         if(in_chk_yn != "Y")
         {
+            alert("생년월일을 다시 입력해주세요.");
             return;
         }
 
@@ -109,11 +110,7 @@ function CheckIdentification() {
     }
 
      function checkIdentification(in_birth_dt){
-
-        //console.log(hsp_tp_cd);
-        //console.log(mdrc_id);
-
-        console.log(in_birth_dt.replace(/-/g,""));
+        //console.log(in_birth_dt.replace(/-/g,""));
 
         if(!isBirthday(in_birth_dt)){
             alert("생년월일을 확인해주세요.");
