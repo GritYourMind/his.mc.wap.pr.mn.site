@@ -8,12 +8,12 @@ import React from 'react';
 import Submit from './Submit';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
-import styled from "styled-components";
 
 const DIVIDER_HEIGHT = 5;
-let Ques_num = 5;
+let Ques_num;
 let submitInterview = [];   //답변 항목
 let location;
+let scrollSettings = {IsCheckRadio : 0, ChekcQuesNum : 0};
 
 //질문&답변 목록
 function Question({question}){
@@ -52,6 +52,9 @@ function buttonClick(question,answer){
                                     ANS_CNTE : answer.ANS_CNTE});
         submitInterview = updatedSaveInterview;
     }
+    
+    scrollSettings.IsCheckRadio = 1;
+    scrollSettings.ChekcQuesNum = question.QST_ID;
 }
 
 //제출하기 버튼 클릭
@@ -90,7 +93,6 @@ function submit(){
 }
 
 function PreInterview(){
-
     location = useLocation();
 
     const [questions, setQuestions] = useState();
@@ -156,88 +158,94 @@ function PreInterview(){
             }
           };
 
-          const touchStartHandler = (e) => {
-            // 터치 시작점을 저장
-            setStartY(e.touches[0].clientY);
-          };
+        //   const touchStartHandler = (e) => {
+        //     // 터치 시작점을 저장
+        //     setStartY(e.touches[0].clientY);
+        //   };
           
-          const touchEndHandler = (e) => {
-            // 터치 이벤트에 따른 로직 구현
-            const { changedTouches } = e;
-            if (changedTouches.length === 1) {
-              // 단일 터치 이벤트인 경우에만 처리하도록 설정
-              const { clientY } = changedTouches[0];
-              const { scrollTop } = outerDivRef.current;
-              const pageHeight = window.innerHeight; // document.documentElement.clientHeight;
+        //   const touchMoveHandler = (e) => {
+        //     // 터치 이벤트에 따른 로직 구현
+        //     const { changedTouches } = e;
+        //     if (changedTouches.length === 1) {
+        //       // 단일 터치 이벤트인 경우에만 처리하도록 설정
+        //       const { clientY } = changedTouches[0];
+        //       const { scrollTop } = outerDivRef.current;
+        //       const pageHeight = window.innerHeight; // document.documentElement.clientHeight;
 
-              // 터치 이벤트의 방향에 따라 스크롤 처리
-              if (clientY < startY) {
-                console.log("down");
-                // 아래로 터치 이벤트인 경우
-                for (let i = 1; i <= Ques_num; i++) {
-                  if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
-                    const p = i === Ques_num ? i - 1 : i;
+        //       // 터치 이벤트의 방향에 따라 스크롤 처리
+        //       if (Math.round(clientY) < Math.round(startY)) {
+        //         console.log("down");
+        //         // 아래로 터치 이벤트인 경우
+        //         for (let i = 1; i <= Ques_num; i++) {
+        //           if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
+        //             const p = i === Ques_num ? i - 1 : i;
           
-                    outerDivRef.current.scrollTo({
-                      top: pageHeight * p ,
-                      left: 0,
-                      behavior: "smooth",
-                    });
-                    setScrollIndex(p);
-                  }
-                }
-              } else if (clientY > startY) {
-                console.log("up");
-                // 위로 터치 이벤트인 경우
-                for (let i = 1; i <= Ques_num; i++) {
-                  if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
-                    const p = i === 1 ? i : i - 1;
+        //             outerDivRef.current.scrollTo({
+        //               top: Math.round(pageHeight * p) ,
+        //               left: 0,
+        //               behavior: "smooth",
+        //             });
+        //             setScrollIndex(p);
+        //           }
+        //         }
+        //       } else if (Math.round(clientY) > Math.round(startY)) {
+        //         console.log("up");
+        //         // 위로 터치 이벤트인 경우
+        //         for (let i = 1; i <= Ques_num; i++) {
+        //           if (scrollTop >= pageHeight * (i - 1) && scrollTop < pageHeight * i) {
+        //             const p = i === 1 ? i : i - 1;
           
-                    outerDivRef.current.scrollTo({
-                      top: pageHeight * (p - 1) ,
-                      left: 0,
-                      behavior: "smooth",
-                    });
-                    setScrollIndex(p);
-                  }
-                }
-              }
-            }
-          };
+        //             outerDivRef.current.scrollTo({
+        //               top: Math.round(pageHeight * (p - 1)) ,
+        //               left: 0,
+        //               behavior: "smooth",
+        //             });
+        //             setScrollIndex(p);
+        //           }
+        //         }
+        //       }
+        //     }
+        //   };
 
           const outerDivRefCurrent = outerDivRef.current;
 
           outerDivRefCurrent.addEventListener("wheel", wheelHandler);
-          outerDivRefCurrent.addEventListener("touchstart",touchStartHandler);
-          outerDivRefCurrent.addEventListener("touchend",touchEndHandler);
+        //   outerDivRefCurrent.addEventListener("touchstart",touchStartHandler);
+        //   outerDivRefCurrent.addEventListener("touchmove",touchMoveHandler);
 
           return () => {
             outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
-            outerDivRefCurrent.removeEventListener("touchstart",touchStartHandler);
-            outerDivRefCurrent.removeEventListener("touchend",touchEndHandler);
+            // outerDivRefCurrent.removeEventListener("touchstart",touchStartHandler);
+            // outerDivRefCurrent.removeEventListener("touchmove",touchMoveHandler);
           };
     },[]);
 
-    const dealt = Math.floor ((2/5)*100);
+    const [progress, setProgress] = useState(0);
 
-    const ProgressBarBlock = styled.div`
-        width:60px;
-        height: 10px;
-        background-color: white;
-    `;
+    useEffect(() => {      
+      const interval = setInterval(() => {
+        setProgress(() => {
+          const newProgress = submitInterview.length;
+          return newProgress;
+        });
 
-    const Dealt = styled.div<{dealt: Number}>`
-        background-color: ${(props)=> props.theme.redColr};
-        width: ${(props)=> props.dealt + "%"};
-        height: 100%;
-    `;
+        if(scrollSettings.IsCheckRadio ==1 && scrollSettings.IsCheckRadio < Ques_num){
+            outerDivRef.current.scrollTo({
+                top:  window.innerHeight*scrollSettings.ChekcQuesNum + (window.innerHeight)/5*scrollSettings.ChekcQuesNum,
+                left:0,
+                behavior: "smooth",
+            });
+            scrollSettings.IsCheckRadio = 0;
+        }
+      }, 100);
+  
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
 
     return(
         <div ref={outerDivRef} className='outer'>
-            {/* <ProgressBarBlock>
-                <Dealt/>
-            </ProgressBarBlock>   */}
-
             <div className='div-verticalAlign'>
                 <div className='top'>
                     <div className='div-holizonAlign-left'>
@@ -251,6 +259,11 @@ function PreInterview(){
                     <div className='div-holizonAlign-left'>
                         <div className='font-default text-left'>성 명</div>
                         <div className='font-default'>: {location.state.pt_nm}</div>
+                    </div>
+
+                    <div >
+                        <progress value={progress} max={Ques_num} />
+                        <span>{progress}/{Ques_num}</span>    
                     </div>
                 </div>
             </div>

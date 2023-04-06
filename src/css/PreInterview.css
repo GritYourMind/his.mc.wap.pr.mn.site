@@ -32,10 +32,10 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 100vw;
     background-color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 3%;
+    width: 90%;
   }
 
   .text-left{
@@ -79,4 +79,30 @@ body {
 
   .answer{
     padding: 2%;
+  }
+
+  progress {
+    width: 100%;
+    height: 3vmin;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+  }
+  
+  progress::-webkit-progress-value {
+    background-color: #F44336;
+    border-radius: 5px;
+  }
+  
+  progress::-moz-progress-bar {
+    background-color: #F44336;
+    border-radius: 5px;
+  }
+  
+  span {
+    display: inline-block;
+    margin-left: 2%;
+    font-size: calc(20px + 2vmin);
+    font-weight: bold;
   }
