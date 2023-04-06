@@ -11,21 +11,6 @@ import {useState, useEffect, useRef} from 'react';
 
 
 function App() {
-  const preventClose = (e) => {
-    e.preventDefault();
-    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
-  };
-  
-  useEffect(() => {
-    (() => {
-      window.addEventListener("beforeunload", preventClose);
-    })();
-  
-    return () => {
-      window.removeEventListener("beforeunload", preventClose);
-    };
-  }, []);
-
   return (
     <div className='App'>
       <BrowserView>
