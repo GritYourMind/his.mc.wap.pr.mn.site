@@ -5,6 +5,7 @@ import '../App.css'
 import getUrlParam from '../hooks/getUrlParameter';
 import getFetchData from '../hooks/getFetchData';
 import {useNavigate} from 'react-router-dom';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 function CheckIdentification() {
 
@@ -12,9 +13,6 @@ function CheckIdentification() {
     //url param
     const hsp_tp_cd = (getUrlParam(window.location, "HSP_TP_CD"));
     const mdrc_id = (getUrlParam(window.location, "MDRC_ID"));
-
-
-
 
     //fetch data
     const [pt_no, setPtno] = useState("");
@@ -27,12 +25,11 @@ function CheckIdentification() {
     const [mdfm_id, setMdfmId] = useState("");
     const [mdfm_fom_seq, setMdfmFomSeq] = useState("");
 
-    
 
     //valiable
     const [txt_birth_dt, setBirthDate]= useState("");
-
-    const [login_chk_yn, setLoginCheckYN] = useState("N");
+    const [is_Birth_Dt, isBirthDt] = useState();
+    const [login_chk_yn, setLoginCheckYN] = useState("");
 
     //navigate
     const navigate = useNavigate();
@@ -51,9 +48,15 @@ function CheckIdentification() {
 
         //console.log("routePreinterview called");
         //console.log("in_chk_yn : " + in_chk_yn);
+
         if(in_chk_yn != "Y")
         {
             alert("생년월일을 다시 입력해주세요.");
+            return;
+        }
+
+        if(checkSubminYN){
+            navigate("/submit");
             return;
         }
 
@@ -109,6 +112,27 @@ function CheckIdentification() {
         }
     }
 
+    function checkSubminYN(){
+        const first_data = [
+            {
+                "method": "SelectPreWrittenYN"
+            },
+            {
+                "HSP_TP_CD": hsp_tp_cd,
+                "MDRC_ID": mdrc_id
+            }
+        ];
+        getFetchData(first_data, (result) => {
+            if(result[0].MDRC_WRT_STS_CD != "N"){
+                return "Y";
+            }
+            else{
+                return "N";
+            }
+        });
+    }
+
+
      function checkIdentification(in_birth_dt){
         //console.log(in_birth_dt.replace(/-/g,""));
 
@@ -132,7 +156,7 @@ function CheckIdentification() {
 
         getFetchData(data, (result) => {
             result.map(n => (
-                
+                setLoginCheckYN(n.LOGIN_CHK),
                 routePreinterview(n.LOGIN_CHK)
             )
             );
@@ -243,7 +267,7 @@ function CheckIdentification() {
 
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
-                    <div className='font-green'>
+                    <div className='font-blue'>
                         생년월일
                     </div>
                     <div className='font-default'>
@@ -258,6 +282,9 @@ function CheckIdentification() {
                 <input className='input-text' type="text" value={txt_birth_dt}  placeholder="생년월일 8자(YYYY-MM-DD)" onChange={e => {
                     handleBirthDt(e);
                 }}/>
+                <div className='div-check-brithday'>
+                   {login_chk_yn =="N" ? '* 생년월일을 확인해주세요.':''}
+                </div>
                 <div className='div-line'/>
             </div>
             <div className='div-holizonAlign-center'>
@@ -271,3 +298,4 @@ function CheckIdentification() {
     )
 }
 export default CheckIdentification;
+
