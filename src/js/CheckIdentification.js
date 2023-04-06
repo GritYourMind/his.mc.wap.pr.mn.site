@@ -28,8 +28,8 @@ function CheckIdentification() {
 
     //valiable
     const [txt_birth_dt, setBirthDate]= useState("");
-    const [is_Birth_Dt, isBirthDt] = useState();
-    const [login_chk_yn, setLoginCheckYN] = useState("");
+    const [login_chk_yn, setLoginCheckYN] = useState(null);
+    // const [submit_chk_yn, setSubmitCheckYN] = useState("N");
 
     //navigate
     const navigate = useNavigate();
@@ -40,22 +40,9 @@ function CheckIdentification() {
 
      //#region function
 
+     function RoutePreinterview(in_login_yn){
 
-
-
-
-     function routePreinterview(in_chk_yn){
-
-        //console.log("routePreinterview called");
-        //console.log("in_chk_yn : " + in_chk_yn);
-
-        if(in_chk_yn != "Y")
-        {
-            alert("생년월일을 다시 입력해주세요.");
-            return;
-        }
-
-        if(checkSubminYN){
+        if(in_login_yn == "Y"){
             navigate("/submit");
             return;
         }
@@ -77,7 +64,7 @@ function CheckIdentification() {
      }
 
 
-     function isBirthday(dateStr) {
+     function IsBirthday(dateStr) {
 
         dateStr = dateStr.replace(/-/g,"");
 
@@ -112,7 +99,11 @@ function CheckIdentification() {
         }
     }
 
-    function checkSubminYN(){
+     function CheckSubminYN(in_login_yn){
+        
+        if (in_login_yn == "N"){
+            return;
+        }
         const first_data = [
             {
                 "method": "SelectPreWrittenYN"
@@ -122,22 +113,21 @@ function CheckIdentification() {
                 "MDRC_ID": mdrc_id
             }
         ];
-        getFetchData(first_data, (result) => {
-            if(result[0].MDRC_WRT_STS_CD != "N"){
-                return "Y";
-            }
-            else{
-                return "N";
-            }
+         getFetchData(first_data, (result) => {
+            
+            //if(result[0].MDRC_WRT_STS_CD != "N"?"Y":"N"){
+                RoutePreinterview(result[0].MDRC_WRT_STS_CD != "N"?"Y":"N");
+            //}
         });
+
+        
     }
 
 
-     function checkIdentification(in_birth_dt){
-        //console.log(in_birth_dt.replace(/-/g,""));
-
-        if(!isBirthday(in_birth_dt)){
-            alert("생년월일을 확인해주세요.");
+     function CheckIdentificationYN(in_birth_dt){
+        const isBirthday = IsBirthday(in_birth_dt)
+        if(!isBirthday){
+            setLoginCheckYN(isBirthday);
             return;
         }
 
@@ -154,17 +144,16 @@ function CheckIdentification() {
         ];
 
 
-        getFetchData(data, (result) => {
-            result.map(n => (
-                setLoginCheckYN(n.LOGIN_CHK),
-                routePreinterview(n.LOGIN_CHK)
-            )
-            );
+         getFetchData(data, (result) => {
+            setLoginCheckYN(result[0].LOGIN_CHK == "Y"?true:false);
+            //if(result[0].LOGIN_CHK == "Y"){
+                CheckSubminYN(result[0].LOGIN_CHK);
+            //}
         });
+
      }
 
-
-     const handleBirthDt = (e) => {
+     const HandleBirthDt = (e) => {
         
         const value = e.target.value.replace(/\D+/g, "");
         const numberLength = 8;
@@ -267,12 +256,8 @@ function CheckIdentification() {
 
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
-                    <div className='font-blue'>
-                        생년월일
-                    </div>
-                    <div className='font-default'>
-                        을 입력해주세요.
-                    </div>
+                    <label className='font-blue'>생년월일</label>
+                    <label className='font-default'>을 입력해주세요.</label>
                 </div>
             </div>
 
@@ -280,17 +265,17 @@ function CheckIdentification() {
 
             <div className='div-verticalAlign'>
                 <input className='input-text' type="text" value={txt_birth_dt}  placeholder="생년월일 8자(YYYY-MM-DD)" onChange={e => {
-                    handleBirthDt(e);
+                    HandleBirthDt(e);
                 }}/>
                 <div className='div-check-brithday'>
-                   {login_chk_yn =="N" ? '* 생년월일을 확인해주세요.':''}
+                    {login_chk_yn ==false ? '* 생년월일을 확인해주세요.':''}
                 </div>
                 <div className='div-line'/>
             </div>
             <div className='div-holizonAlign-center'>
                 <button className='button-okey' onClick={
                     e => {
-                        checkIdentification(txt_birth_dt);
+                        CheckIdentificationYN(txt_birth_dt);
                     }
                 }>확 인</button>
             </div> 
