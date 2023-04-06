@@ -47,6 +47,7 @@
   -o-text-size-adjust : none;  /* 오페라 구버전 */
   
 }
+
 .div-verticalAlign{
   
   background-color: transparent;
@@ -97,7 +98,7 @@
 }
 
 .button-okey{
-  width: 80%;
+  width: 90%;
   align-self: stretch;
   border: 0;
   background-color:  rgb(40, 140, 239);
@@ -108,9 +109,6 @@
   
   color: white;
   align-items: center;
-  /* bottom: 0;
-  margin-bottom: 1%;
-  position: absolute; */
 
   -webkit-text-size-adjust : none;  /* 크롬, 사파리, 오페라 신버전 */
   -ms-text-size-adjust : none;  /* IE */
@@ -121,8 +119,6 @@
 
 .div-main{
   align-self: stretch;
-  width: 10;
-  height: 10;
   background-color: transparent;
 }
 

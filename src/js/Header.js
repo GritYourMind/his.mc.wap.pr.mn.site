@@ -1,8 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import hospSymbol from '../img/H1_01.jpg';
-import hospKrNm from '../img/H1_02.jpg';
+import hospSymbolKrNm from '../img/cbnuh_log1.png'
 import '../css/Header.css';
 
 function Header(){
@@ -17,9 +16,19 @@ function Header(){
     },[]);
 
     return(
-        <div className='div_main'>
-            <img src={hospSymbol} width={innerWidth/10}/>
-            <img src={hospKrNm} width={innerWidth*5/10} />
+        <div className='div-header-main'>
+            <div className='div-header-border'>
+                <div className='div-header-logo'>
+                    <img src={hospSymbolKrNm} width={innerWidth*2/10}/>
+                </div>
+
+                <div className='div-header-center'>
+                    <div className='div-header-text'>
+                        사전문진표
+                    </div>
+                </div>
+            </div>
+            
         </div>        
     )
 }
