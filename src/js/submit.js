@@ -29,6 +29,7 @@ function Submit() {
                 감사합니다.
             </div>
         </div>
+        <br/>
       </div>
 
       <div className='div-holizonAlign-center'>

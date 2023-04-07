@@ -14,8 +14,8 @@
     background-color: transparent;
     display: flex;
     position: absolute;
-    margin-top: 1%;
-    margin-left: 2%;
+    margin-top: 2%;
+    margin-left: 3%;
     top: 0;
     left: 0;
 }
@@ -36,8 +36,6 @@
 .div-header-text {
     background-color: transparent;
     color: black;
-    font-size: calc(40px + 2vmin);
-    font-weight: bold;
-    font-size: 8vh;
+    font-size: 7vh;
     
 }
