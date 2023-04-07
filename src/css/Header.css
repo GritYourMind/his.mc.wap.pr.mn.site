@@ -6,7 +6,8 @@
 }
 
 .img-header-logo{
-    width: 20vmin
+    margin: 1%;
+    width: 20vw;
 }
 
 .div-header-logo{
@@ -37,6 +38,6 @@
     color: black;
     font-size: calc(40px + 2vmin);
     font-weight: bold;
-    font-size: 9vh;
+    font-size: 8vh;
     
 }
