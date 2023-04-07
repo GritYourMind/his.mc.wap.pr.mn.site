@@ -1,8 +1,38 @@
-.div_main{
+.div-header-main{
     background-color: transparent;
-    width: 100%;
-    align-items: center;
     display: flex;
-    justify-content: center;
-    height: 20vmin;
+    height: 10vmin;
+    margin: 1%;
+}
+
+
+.div-header-logo{
+    background-color: transparent;
+    display: flex;
+    position: absolute;
+    margin-top: 1%;
+    margin-left: 2%;
+    top: 0;
+    left: 0;
+}
+
+.div-header-border{
+  background-color:transparent;
+  border-color:  rgb(40, 140, 239);
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 2.5px;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.div-header-text {
+    background-color: transparent;
+    color: black;
+    font-size: calc(40px + 2vmin);
+    font-weight: bold;
+    
 }
