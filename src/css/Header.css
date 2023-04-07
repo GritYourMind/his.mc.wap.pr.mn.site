@@ -1,10 +1,13 @@
 .div-header-main{
     background-color: transparent;
     display: flex;
-    height: 10vmin;
+    height: 10vh;
     margin: 1%;
 }
 
+.img-header-logo{
+    width: 20vmin
+}
 
 .div-header-logo{
     background-color: transparent;
@@ -34,5 +37,6 @@
     color: black;
     font-size: calc(40px + 2vmin);
     font-weight: bold;
+    font-size: 9vh;
     
 }
