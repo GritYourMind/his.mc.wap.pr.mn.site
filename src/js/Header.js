@@ -19,7 +19,7 @@ function Header(){
         <div className='div-header-main'>
             <div className='div-header-border'>
                 <div className='div-header-logo'>
-                    <img src={hospSymbolKrNm} width={innerWidth*2/10}/>
+                    <img src={hospSymbolKrNm} width={200}/>
                 </div>
 
                 <div className='div-header-center'>
