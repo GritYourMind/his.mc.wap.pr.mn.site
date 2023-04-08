@@ -132,7 +132,7 @@ function PreInterview(){
             setQuestions(result);
             Ques_num = result.length;
         });
-
+        
         const wheelHandler = (e) => {
             e.preventDefault();
             const { deltaY } = e;
@@ -188,10 +188,11 @@ function PreInterview(){
           const newProgress = submitInterview.length;
           return newProgress;
         });
-
-        if(scrollSettings.IsCheckRadio ==1 && scrollSettings.IsCheckRadio < Ques_num){
+        
+        if(scrollSettings.IsCheckRadio ==1 && scrollSettings.ChekcQuesNum < Ques_num){
+            const Click_DIVIDER_HEIGHT = window.innerWidth < 768? (window.innerHeight)/5 : DIVIDER_HEIGHT;
             outerDivRef.current.scrollTo({
-                top:  window.innerHeight*scrollSettings.ChekcQuesNum + (window.innerHeight)/5*scrollSettings.ChekcQuesNum,
+                top:  window.innerHeight*scrollSettings.ChekcQuesNum + Click_DIVIDER_HEIGHT*scrollSettings.ChekcQuesNum,
                 left:0,
                 behavior: "smooth",
             });
@@ -214,28 +215,28 @@ function PreInterview(){
                     </div>
                     <div className='div-holizonAlign-left'>
                         <div className='font-default text-left'>예약일시</div>
-                        <div className='font-default'>: {location.state.med_dt} {location.state.med_rsv_dtm}</div>
+                        <div className='font-default'>: {location.state.med_rsv_dtm}</div>
                     </div>
                     <div className='div-holizonAlign-left'>
                         <div className='font-default text-left'>성 명</div>
                         <div className='font-default'>: {location.state.pt_nm}</div>
                     </div>
 
-                    <div >
+                    <div className='progress-container'>
                         <progress value={progress} max={Ques_num} />
                         <span>{progress}/{Ques_num}</span>    
                     </div>
                 </div>
             </div>
 
-            <div >
+            <div>
                 {questions?.map(question => (
                     <Question question={question} />
                 ))}
             </div>
 
             <div className='div-holizonAlign-center'>
-                <button className='submit' onClick={() => submit()}>제출하기</button>
+                <button className='btn-hover' onClick={() => submit()}>제출하기</button>
             </div>
             
         </div>
