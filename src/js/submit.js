@@ -33,7 +33,7 @@ function Submit() {
       </div>
 
       <div className='div-holizonAlign-center'>
-          <button className='button-okey' onClick={handleClose}>확 인</button>
+          <button className='btn-hover' onClick={handleClose}>확 인</button>
       </div> 
     </div>
     
