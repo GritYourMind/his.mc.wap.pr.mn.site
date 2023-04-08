@@ -53,7 +53,7 @@ function CheckIdentification() {
                 mdrc_id:mdrc_id,
                 med_dept_nm:med_dept_nm,
                 med_dt:med_dt,
-                rsv_dtm:med_rsv_dtm,
+                med_rsv_dtm:med_rsv_dtm,
                 pt_no:pt_no,
                 pt_nm:pt_nm,
                 mdrc_fom_seq:mdrc_fom_seq,
@@ -154,7 +154,6 @@ function CheckIdentification() {
      }
 
      const HandleBirthDt = (e) => {
-        
         const value = e.target.value.replace(/\D+/g, "");
         const numberLength = 8;
     
@@ -200,7 +199,11 @@ function CheckIdentification() {
         ];
     
         getFetchData(data, (result) => {
-            
+            if(result.length == 0){
+               navigate("/"); 
+               return;
+            }
+
             result?.map((n) => (
                  setPtno(n.PT_NO),
                  setPtnm(n.PT_NM),
@@ -210,24 +213,21 @@ function CheckIdentification() {
                  setMdrcFomSeq(n.MDRC_FOM_SEQ),
                  setMdfmId(n.MDFM_ID),
                  setMdfmFomSeq(n.MDFM_FOM_SEQ)
-
-
-            )
-            );
+            ));
         });
     },[]);
 
     return(
         
         <div className='div-main'>
-            
+            <br />
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
                     <div className='font-green' >
                         {pt_nm}
                     </div>
                     <div className='font-default'>
-                        님 안녕하세요
+                        님 안녕하세요.
                     </div>
                 </div>
 
@@ -267,13 +267,13 @@ function CheckIdentification() {
                 <input className='input-text' type="text" value={txt_birth_dt}  placeholder="생년월일 8자(YYYY-MM-DD)" onChange={e => {
                     HandleBirthDt(e);
                 }}/>
+                <div className='div-line'/>
                 <div className='div-check-brithday'>
                     {login_chk_yn ==false ? '* 생년월일을 확인해주세요.':''}
                 </div>
-                <div className='div-line'/>
             </div>
             <div className='div-holizonAlign-center'>
-                <button className='button-okey' onClick={
+                <button className='btn-hover' onClick={
                     e => {
                         CheckIdentificationYN(txt_birth_dt);
                     }
