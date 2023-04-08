@@ -26,7 +26,7 @@ body {
 
   .top{
     border-radius: 10px;
-    border-color:rgb(0,170,238);
+    border-color: #655dbb;
     border-style: solid;
     align-items: center;
     justify-content: center;
@@ -36,6 +36,7 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 3%;
     width: 90%;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
   }
 
   .text-left{
@@ -75,15 +76,65 @@ body {
     color: white;
     border-style: none;
     border-radius: 10px;
+    box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.5);
   }
+
+  .btn-hover {
+    width: 90%;
+    height: 10%;
+    position: fixed;
+    bottom: 0;
+    
+    font-size: xx-large;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+
+    border-style: none;
+    border-radius: 50px; /* 10px */
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+
+    background-image: linear-gradient(to right, #bface2, #3e54ac, #655dbb);
+    /* background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673); */
+    box-shadow: 0 4px 15px 0 #bface2; /*rgba(49, 196, 190, 0.75);*/
+}
+
+.btn-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+    outline: none;
+}
 
   .answer{
     padding: 2%;
   }
 
+.progress-container{
+  background-color: transparent;
+  display: flex;
+  align-items: center;  /*세로*/
+  margin-top: 3%;
+  margin-bottom: -1.5%;
+}
+
   progress {
-    width: 100%;
-    height: 3vmin;
+    width: 93%;
+    /* height: 3vmin; */
+    height: 0.5rem;
     appearance: none;
     border: none;
     border-radius: 5px;
@@ -91,18 +142,21 @@ body {
   }
   
   progress::-webkit-progress-value {
-    background-color: #F44336;
+    /* background-color: #F44336; */
+    background-image: linear-gradient(to right, #FF9A00, #F44336 70%);
     border-radius: 5px;
   }
   
   progress::-moz-progress-bar {
-    background-color: #F44336;
+    /* background-color: #F44336; */
+    background-image: linear-gradient(to right,#FF9A00, #F44336 70%);
     border-radius: 5px;
   }
   
   span {
     display: inline-block;
     margin-left: 2%;
-    font-size: calc(20px + 2vmin);
+    /* font-size: 5vmin; */
+    font-size: 1.25rem;
     font-weight: bold;
   }
