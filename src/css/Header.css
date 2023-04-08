@@ -1,41 +1,45 @@
 .div-header-main{
     background-color: transparent;
     display: flex;
-    height: 10vh;
-    margin: 1%;
+    height: 85px;
+    /* margin: 1%; */
 }
 
 .img-header-logo{
-    margin: 1%;
-    width: 20vw;
+    width: 35px;
+    height: 35px;
 }
 
 .div-header-logo{
     background-color: transparent;
     display: flex;
-    position: absolute;
-    margin-top: 2%;
-    margin-left: 3%;
-    top: 0;
-    left: 0;
+    /* position: absolute; */
+    /* margin-top: 2%;*/
+    /* margin-left: 3%; */
+    /*top: 0;*/
+    /* left: 40%;  */
 }
 
 .div-header-border{
   background-color:transparent;
-  border-color:  rgb(40, 140, 239);
+  /* border-color:  rgb(40, 140, 239);
   border-radius: 10px;
   border-style: solid;
-  border-width: 2.5px;
+  border-width: 0px; */
+  /* box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5); */
 
-  width: 100%;
+  background-color: #ecf2ff;
+  width: 100vw;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 
 .div-header-text {
     background-color: transparent;
     color: black;
-    font-size: 7vh;
-    
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
 }
