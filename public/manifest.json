@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "사전문진",
+  "name": "충북대학교병원 사전문진",
   "icons": [
     {
       "src": "favicon.ico",
