@@ -11,8 +11,8 @@ function CheckIdentification() {
 
     //#region State
     //url param
-    const hsp_tp_cd = (getUrlParam(window.location, "HSP_TP_CD"));
-    const mdrc_id = (getUrlParam(window.location, "MDRC_ID"));
+    const hsp_tp_cd = (getUrlParam(window.location, "H"));
+    const mdrc_id = (getUrlParam(window.location, "M"));
 
     //fetch data
     const [pt_no, setPtno] = useState("");
