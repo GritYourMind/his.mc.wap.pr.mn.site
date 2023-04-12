@@ -199,7 +199,7 @@ function CheckIdentification() {
         ];
     
         getFetchData(data, (result) => {
-            if(result.length == 0){
+            if(result === undefined || result.length == 0){
                navigate("/"); 
                return;
             }
