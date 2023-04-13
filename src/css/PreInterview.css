@@ -1,3 +1,19 @@
+@media (min-width:0px) and (max-width:460px) {
+  .inner{
+    font-size: calc(10px + 2vmin);
+  }
+}
+@media (min-width:460px) and (max-width:600px) {
+  .inner{
+    font-size: calc(20px + 2vmin);
+  }
+}
+@media (min-width:600px) {
+  .inner{
+    font-size: calc(25px + 2vmin);
+  }
+}
+
 body {
     margin: 0;
     overflow-y: hidden;
@@ -31,7 +47,7 @@ body {
     align-items: center;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    /* position: absolute; */
     background-color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 3%;
@@ -57,11 +73,11 @@ body {
     height: 100vh;
     display: flex;
     justify-content: left;  /*가로*/
-    align-items: center;  /*세로*/
-    font-size: calc(20px + 2vmin);
+    align-items: top;  /*세로*/
     white-space: pre-wrap;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin: 3%;
+    margin-left: 3%;
+    padding-top: 25px;
   }
 
   .submit{
