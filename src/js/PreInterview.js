@@ -20,7 +20,7 @@ function Question({question}){
     const answer = JSON.parse(question.ANS);
 
     return(
-        <div className='inner'>
+        <div id={question.QST_NO} className='inner'>
             <div>
                 <b>{question.QST_NO}. {question.QST_CNTE}</b>
             
@@ -190,9 +190,10 @@ function PreInterview(){
         });
         
         if(scrollSettings.IsCheckRadio ==1 && scrollSettings.ChekcQuesNum < Ques_num){
-            const Click_DIVIDER_HEIGHT = window.innerWidth < 768? (window.innerHeight)/5 : DIVIDER_HEIGHT;
+            const topHeight = document.getElementById('top').clientHeight;
             outerDivRef.current.scrollTo({
-                top:  window.innerHeight*scrollSettings.ChekcQuesNum + Click_DIVIDER_HEIGHT*scrollSettings.ChekcQuesNum,
+                // top:  window.innerHeight*scrollSettings.ChekcQuesNum + topHeight + 75,
+                top: (document.getElementById(scrollSettings.ChekcQuesNum).clientHeight)*scrollSettings.ChekcQuesNum + topHeight,
                 left:0,
                 behavior: "smooth",
             });
@@ -207,7 +208,7 @@ function PreInterview(){
 
     return(
         <div ref={outerDivRef} className='outer'>
-            <div className='div-verticalAlign'>
+            <div id='top' className='div-verticalAlign'>
                 <div className='top'>
                     <div className='div-holizonAlign-left'>
                         <div className='font-default text-left'>진 료 과</div>
