@@ -5,7 +5,6 @@ import '../App.css'
 import getUrlParam from '../hooks/getUrlParameter';
 import getFetchData from '../hooks/getFetchData';
 import {useNavigate} from 'react-router-dom';
-import { isVisible } from '@testing-library/user-event/dist/utils';
 
 function CheckIdentification() {
 
@@ -188,6 +187,21 @@ function CheckIdentification() {
      //#endregion
     
     useEffect(() =>{
+
+        if(hsp_tp_cd == undefined || hsp_tp_cd == null){
+            navigate("/");
+            return;
+        }
+
+        if(mdrc_id == undefined || mdrc_id == null){
+            navigate("/");
+            return;
+        }
+
+
+        console.log("hsp_tp_cd :" + hsp_tp_cd);
+        console.log("mdrc_id :" + mdrc_id);
+
         const data = [
             {
                 "method": "SelectPreMediIntroPageInfo"
@@ -199,21 +213,23 @@ function CheckIdentification() {
         ];
     
         getFetchData(data, (result) => {
+            console.log("getFetchData result:" + result);
             if(result === undefined || result.length == 0){
                navigate("/"); 
                return;
             }
-
-            result?.map((n) => (
-                 setPtno(n.PT_NO),
-                 setPtnm(n.PT_NM),
-                 setMedDt(n.MED_DT),
-                 setMedDeptNm(n.MED_DEPT_NM),
-                 setMedRsvDtm(n.MED_RSV_DTM),
-                 setMdrcFomSeq(n.MDRC_FOM_SEQ),
-                 setMdfmId(n.MDFM_ID),
-                 setMdfmFomSeq(n.MDFM_FOM_SEQ)
-            ));
+            else{
+                result?.map((n) => (
+                    setPtno(n.PT_NO),
+                    setPtnm(n.PT_NM),
+                    setMedDt(n.MED_DT),
+                    setMedDeptNm(n.MED_DEPT_NM),
+                    setMedRsvDtm(n.MED_RSV_DTM),
+                    setMdrcFomSeq(n.MDRC_FOM_SEQ),
+                    setMdfmId(n.MDFM_ID),
+                    setMdfmFomSeq(n.MDFM_FOM_SEQ)
+                ));
+            }
         });
     },[]);
 
@@ -223,7 +239,7 @@ function CheckIdentification() {
             <br />
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
-                    <div className='font-green' >
+                    <div className='font-ptnm' >
                         {pt_nm}
                     </div>
                     <div className='font-default'>
@@ -256,7 +272,7 @@ function CheckIdentification() {
 
             <div className='div-verticalAlign'>
                 <div className='div-holizonAlign-left'>
-                    <label className='font-blue'>생년월일</label>
+                    <label className='font-str1'>생년월일</label>
                     <label className='font-default'>을 입력해주세요.</label>
                 </div>
             </div>
