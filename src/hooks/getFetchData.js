@@ -1,21 +1,28 @@
 
 const getFetchData = async(data, callback) => {
-    // fetch(process.env.REACT_APP_HOST, {
-    fetch('/bcexternal', {
+    fetch(process.env.REACT_APP_HOST, {
+    //fetch('/bcexternal', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
         'Content-Type': 'application/json'
     }
     })
-    .then(response => response.json())
+    .then(response => 
+    {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            throw new Error('Network Error');
+        }
+    })
     .then(data => {
-    //console.log(data);
         callback(data);
     })
     .catch(error => {
-        //console.error(error);
-    callback(error);
+        console.error("error: "+ error);
+        callback(undefined);
     });
 };
 
