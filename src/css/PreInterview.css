@@ -1,10 +1,22 @@
 @media (min-width:0px) and (max-width:460px) {
   .inner{
+    font-size: calc(15px + 2vmin);
+  }
+  .font-preinterview-top{
     font-size: calc(10px + 2vmin);
+  }
+  .answer{
+    font-size: calc(15px + 2vmin);
   }
 }
 @media (min-width:460px) and (max-width:600px) {
   .inner{
+    font-size: calc(20px + 2vmin);
+  }
+  .font-preinterview-top{
+    font-size: calc(15px + 2vmin);
+  }
+  .answer{
     font-size: calc(20px + 2vmin);
   }
 }
@@ -12,6 +24,26 @@
   .inner{
     font-size: calc(25px + 2vmin);
   }
+  .font-preinterview-top{
+    font-size: calc(20px + 2vmin);
+  }
+  .answer{
+    font-size: calc(20px + 2vmin);
+  }
+}
+
+.font-preinterview-top {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  /* font-weight: 400; */
+  color: black;
+  -webkit-text-size-adjust : none;  /* 크롬, 사파리, 오페라 신버전 */
+  -ms-text-size-adjust : none;  /* IE */
+  -moz-text-size-adjust : none;  /* 파이어폭스 */
+  -o-text-size-adjust : none;  /* 오페라 구버전 */
 }
 
 body {
@@ -19,11 +51,11 @@ body {
     overflow-y: hidden;
   }
   
-  .outer {
-    height: 100vh;
-    overflow-y: auto;
-    /*flex-direction: column;*/
-  }
+.outer {
+  height: 100vh;
+  overflow-y: auto;
+  /*flex-direction: column;*/
+}
   
   /* 화면에서 스크롤바 안보이게 */
   .outer::-webkit-scrollbar {
@@ -43,14 +75,11 @@ body {
   .top{
     border-radius: 10px;
     border-color: #655dbb;
-    border-style: solid;
-    align-items: center;
-    justify-content: center;
-    align-items: center;
-    /* position: absolute; */
-    background-color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    padding: 3%;
+    border-style: solid;;
+    position: absolute;
+    left: 2%;
+    background-color: rgb(243, 248, 252);;
+    padding: 2%;
     width: 90%;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
   }
@@ -70,13 +99,14 @@ body {
   }
   
   .inner {
-    height: 100vh;
+    /* height: calc(100vh - 85px); */
+    height: calc(calc(var(--vh,1vh)*100) - 85px);
     display: flex;
     justify-content: left;  /*가로*/
-    align-items: top;  /*세로*/
+    align-items: center;  /*세로*/
     white-space: pre-wrap;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-left: 3%;
+    margin-left: 4%;
+    margin-right: 4%;
     padding-top: 25px;
   }
 
@@ -105,7 +135,11 @@ body {
     font-weight: bold;
     color: #fff;
     cursor: pointer;
-    margin: 20px;
+    
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
     height: 55px;
     text-align:center;
     border: none;
@@ -135,17 +169,18 @@ body {
     outline: none;
 }
 
-  .answer{
-    padding: 2%;
-  }
+.answer{
+  padding: 2%;
+}
 
 .progress-container{
   background-color: transparent;
   display: flex;
-  align-items: center;  /*세로*/
-  margin-top: 3%;
+  align-items: center;  
+  margin-top: 1%;
   margin-bottom: -1.5%;
 }
+
 
   progress {
     width: 93%;
@@ -161,6 +196,7 @@ body {
     /* background-color: #F44336; */
     background-image: linear-gradient(to right, #FF9A00, #F44336 70%);
     border-radius: 5px;
+    
   }
   
   progress::-moz-progress-bar {
