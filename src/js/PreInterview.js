@@ -94,6 +94,8 @@ function submit(){
 
 function PreInterview(){
     location = useLocation();
+    let vh = window.innerHeight *0.01;
+    document.documentElement.style.setProperty('--vh',`${vh}px`);
 
     const [questions, setQuestions] = useState();
     const outerDivRef = useRef();
@@ -211,16 +213,16 @@ function PreInterview(){
             <div id='top' className='div-verticalAlign'>
                 <div className='top'>
                     <div className='div-holizonAlign-left'>
-                        <div className='font-default text-left'>진 료 과</div>
-                        <div className='font-default'>: {location.state.med_dept_nm}</div>
+                        <div className='font-preinterview-top text-left'>진 료 과</div>
+                        <div className='font-preinterview-top'>: {location.state.med_dept_nm}</div>
                     </div>
                     <div className='div-holizonAlign-left'>
-                        <div className='font-default text-left'>예약일시</div>
-                        <div className='font-default'>: {location.state.med_rsv_dtm}</div>
+                        <div className='font-preinterview-top text-left'>예약일시</div>
+                        <div className='font-preinterview-top'>: {location.state.med_rsv_dtm}</div>
                     </div>
                     <div className='div-holizonAlign-left'>
-                        <div className='font-default text-left'>성 명</div>
-                        <div className='font-default'>: {location.state.pt_nm}</div>
+                        <div className='font-preinterview-top text-left'>성 명</div>
+                        <div className='font-preinterview-top'>: {location.state.pt_nm}</div>
                     </div>
 
                     <div className='progress-container'>
