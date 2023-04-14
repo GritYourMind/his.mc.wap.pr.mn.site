@@ -6,7 +6,7 @@ import getFetchData from '../hooks/getFetchData';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import Submit from './Submit';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from './Header';
 
 const DIVIDER_HEIGHT = 5;
@@ -57,40 +57,6 @@ function buttonClick(question,answer){
     scrollSettings.ChekcQuesNum = question.QST_ID;
 }
 
-//제출하기 버튼 클릭
-function submit(){
-    if(submitInterview.length != Ques_num){
-        alert("모든 항목에 답이 작성되지 않았습니다.");
-    }
-    else{
-        const data = [{"method":"SavePreInterviewArray","HSP_TP_CD":"01"}];
-        submitInterview?.map(p=>(
-            data.push({"IN_ARR_HSP_TP_CD" : location.state.hsp_tp_cd,
-                       "IN_ARR_MDRC_ID" : location.state.mdrc_id,
-                       "IN_ARR_MDRC_FOM_SEQ" : location.state.mdrc_fom_seq,
-                       "IN_ARR_QST_ID" : p.QST_ID,
-                       "IN_ARR_ANS_ID" : p.ANS_ID,
-                       "IN_ARR_ANS_CNTE" : p.ANS_CNTE,
-                       "IN_ARR_FSR_STF_NO" : "TEST",
-                       "IN_ARR_FSR_PRGM_NM" : "사전문진표 작성",
-                       "IN_ARR_FSR_IP_ADDR" : "."})))
-
-        getFetchData(data, (result) => {
-            if (result === undefined || result.length === 0) {
-                const root = ReactDOM.createRoot(document.getElementById('root'));
-                root.render(
-                <React.StrictMode>
-                    <Header/>
-                    <Submit />
-                </React.StrictMode>
-                );
-            }
-            else{
-                alert(result.m_message);
-            }
-        });
-    }
-}
 
 function PreInterview(){
     location = useLocation();
@@ -102,23 +68,25 @@ function PreInterview(){
     const [scrollIndex, setScrollIndex] = useState(1);
 
     const [progress, setProgress] = useState();
+    const navigate = useNavigate();
 
     const preventClose = (e) => {
         e.preventDefault();
         e.returnValue = ""; //Chrome에서 동작하도록; deprecated
-      };
-    useEffect(() => {
-    (() => {
-        window.addEventListener("beforeunload", preventClose);
-    })();
-    
-    return () => {
-        window.removeEventListener("beforeunload", preventClose);
     };
-    }, []);
-
+    
+    useEffect(()=>{
+        //창이 닫히거나, 새로고침
+        window.addEventListener("beforeunload", preventClose);
+        //뒤로가기
+        // window.addEventListener("popstate", preventGoBack);
+        return()=>{
+            window.removeEventListener("beforeunload", preventClose);
+            // window.removeEventListener("popstate", preventGoBack);
+        };
+    },[]);
+    
     useEffect(() => {
-        
         const data = [
             {
                 "method": "SelectPreMediQuesionList"
@@ -134,6 +102,13 @@ function PreInterview(){
             setQuestions(result);
             Ques_num = result.length;
         });
+
+        //뒤로가기 처리
+        window.onpopstate = function(event){
+            const url = '/ident?h='+location.state.hsp_tp_cd+'&&m='+location.state.mdrc_id;
+            window.history.pushState({},undefined,url);
+            window.location.reload(true);
+        }
         
         const wheelHandler = (e) => {
             e.preventDefault();
@@ -207,6 +182,35 @@ function PreInterview(){
         clearInterval(interval);
       };
     }, []);
+
+    //제출하기 버튼 클릭
+    function submit(){
+        if(submitInterview.length != Ques_num){
+            alert("모든 항목에 답이 작성되지 않았습니다.");
+        }
+        else{
+            const data = [{"method":"SavePreInterviewArray","HSP_TP_CD":"01"}];
+            submitInterview?.map(p=>(
+                data.push({"IN_ARR_HSP_TP_CD" : location.state.hsp_tp_cd,
+                        "IN_ARR_MDRC_ID" : location.state.mdrc_id,
+                        "IN_ARR_MDRC_FOM_SEQ" : location.state.mdrc_fom_seq,
+                        "IN_ARR_QST_ID" : p.QST_ID,
+                        "IN_ARR_ANS_ID" : p.ANS_ID,
+                        "IN_ARR_ANS_CNTE" : p.ANS_CNTE,
+                        "IN_ARR_FSR_STF_NO" : "TEST",
+                        "IN_ARR_FSR_PRGM_NM" : "사전문진표 작성",
+                        "IN_ARR_FSR_IP_ADDR" : "."})))
+
+            getFetchData(data, (result) => {
+                if (result === undefined || result.length === 0) {
+                    navigate("/submit");
+                }
+                else{
+                    alert(result.m_message);
+                }
+            });
+        }
+    }
 
     return(
         <div ref={outerDivRef} className='outer'>
