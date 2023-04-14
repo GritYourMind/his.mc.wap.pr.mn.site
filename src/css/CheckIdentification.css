@@ -154,8 +154,9 @@
 .div-main{
   align-self: stretch;
   background-color: transparent;
-  margin-left: 5%;
-  margin-right: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 100vh;
 }
 
 .div-line{
