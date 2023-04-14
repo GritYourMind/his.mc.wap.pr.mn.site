@@ -18,7 +18,7 @@ function Submit() {
     <div className='div-main text'>
       <div className='div-verticalAlign'>
         <div className='div-holizonAlign-left'>
-          <div className='font-green' >사전문진</div>
+          <div className='font-str1' >사전문진</div>
           <div className='font-default'>
               이 완료되었습니다.
           </div>
