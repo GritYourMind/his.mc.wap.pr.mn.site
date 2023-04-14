@@ -99,14 +99,14 @@ body {
   }
   
   .inner {
-    /* height: calc(100vh - 85px); */
-    height: calc(calc(var(--vh,1vh)*100) - 85px);
+    height: calc(calc(var(--vh,1vh)*100) - 60px);
+    width: 92vw;
     display: flex;
     justify-content: left;  /*가로*/
     align-items: center;  /*세로*/
     white-space: pre-wrap;
-    margin-left: 4%;
-    margin-right: 4%;
+    padding-left: 4%;
+    padding-right: 4%;
     padding-top: 25px;
   }
 
@@ -171,6 +171,7 @@ body {
 
 .answer{
   padding: 2%;
+  width: 92vw;
 }
 
 .progress-container{
