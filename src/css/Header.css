@@ -2,7 +2,6 @@
     background-color: transparent;
     display: flex;
     height: 85px;
-    /* margin: 1%; */
 }
 
 .img-header-logo{
@@ -13,22 +12,11 @@
 .div-header-logo{
     background-color: transparent;
     display: flex;
-    /* position: absolute; */
-    /* margin-top: 2%;*/
-    /* margin-left: 3%; */
-    /*top: 0;*/
-    /* left: 40%;  */
 }
 
 .div-header-border{
   background-color:transparent;
-  /* border-color:  rgb(40, 140, 239);
-  border-radius: 10px;
-  border-style: solid;
-  border-width: 0px; */
-  /* box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5); */
-
-  background-color: #ecf2ff;
+  background-color: #ced2fa;
   width: 100vw;
   display: flex;
   justify-content: center;
