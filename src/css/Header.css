@@ -1,12 +1,12 @@
 .div-header-main{
     background-color: transparent;
     display: flex;
-    height: 85px;
+    height: 60px;
 }
 
 .img-header-logo{
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
 }
 
 .div-header-logo{
@@ -27,7 +27,7 @@
 .div-header-text {
     background-color: transparent;
     color: black;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
