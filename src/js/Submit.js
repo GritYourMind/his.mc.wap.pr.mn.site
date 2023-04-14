@@ -16,15 +16,16 @@ function Submit() {
 
   return (
     <div className='div-main text'>
+      <br/>
       <div className='div-verticalAlign'>
-        <div className='div-holizonAlign-left'>
+        <div className='div-holizonAlign-center'>
           <div className='font-str1' >사전문진</div>
           <div className='font-default'>
               이 완료되었습니다.
           </div>
         </div>
 
-        <div className='div-holizonAlign-left'>
+        <div className='div-holizonAlign-center'>
             <div className='font-default'>
                 감사합니다.
             </div>
