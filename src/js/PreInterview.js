@@ -3,11 +3,8 @@ import '../css/PreInterview.css';
 import '../css/CheckIdentification.css'
 import '../App.css'
 import getFetchData from '../hooks/getFetchData';
-import ReactDOM from 'react-dom/client';
 import React from 'react';
-import Submit from './Submit';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Header from './Header';
 
 const DIVIDER_HEIGHT = 5;
 let Ques_num;
@@ -68,7 +65,7 @@ function PreInterview(){
     const [scrollIndex, setScrollIndex] = useState(1);
 
     const [progress, setProgress] = useState();
-    const navigate = useNavigate();
+    const navigate = useNavigate(null);
 
     const preventClose = (e) => {
         e.preventDefault();
@@ -183,6 +180,28 @@ function PreInterview(){
       };
     }, []);
 
+    /* 모바일 키패드 오픈 시 하단 고정 해제 */
+    const [isBottomFixed, setIsBottomFixed] = useState(true);
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    useEffect(() => {
+    
+        const handleResize = () => {
+            const newHeight = window.innerHeight;
+            if (newHeight < windowHeight) {
+                setIsBottomFixed(false);
+            } else {
+                setIsBottomFixed(true);
+            }
+            setWindowHeight(newHeight);
+        };
+
+        window.addEventListener('resize', handleResize);
+      
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+
     //제출하기 버튼 클릭
     function submit(){
         if(submitInterview.length != Ques_num){
@@ -203,7 +222,7 @@ function PreInterview(){
 
             getFetchData(data, (result) => {
                 if (result === undefined || result.length === 0) {
-                    navigate("/submit");
+                    navigate("/submit", {state: location.state});
                 }
                 else{
                     alert(result.m_message);
@@ -243,7 +262,7 @@ function PreInterview(){
             </div>
 
             <div className='div-holizonAlign-center'>
-                <button className='btn-hover' onClick={() => submit()}>제출하기</button>
+                <button className={`btn-hover ${isBottomFixed ? 'bottom-fixed' : ''}`} onClick={() => submit()}>제출하기</button>
             </div>
             
         </div>
