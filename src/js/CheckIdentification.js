@@ -42,7 +42,20 @@ function CheckIdentification() {
      function RoutePreinterview(in_login_yn){
 
         if(in_login_yn == "Y"){
-            navigate("/submit");
+            navigate("/submit",{
+                state: {
+                    hsp_tp_cd:hsp_tp_cd ,
+                    mdrc_id:mdrc_id,
+                    med_dept_nm:med_dept_nm,
+                    med_dt:med_dt,
+                    med_rsv_dtm:med_rsv_dtm,
+                    pt_no:pt_no,
+                    pt_nm:pt_nm,
+                    mdrc_fom_seq:mdrc_fom_seq,
+                    mdfm_id:mdfm_id,
+                    mdfm_fom_seq:mdfm_fom_seq
+                }
+            });
             return;
         }
 
@@ -198,10 +211,6 @@ function CheckIdentification() {
             return;
         }
 
-
-        console.log("hsp_tp_cd :" + hsp_tp_cd);
-        console.log("mdrc_id :" + mdrc_id);
-
         const data = [
             {
                 "method": "SelectPreMediIntroPageInfo"
@@ -213,7 +222,6 @@ function CheckIdentification() {
         ];
     
         getFetchData(data, (result) => {
-            console.log("getFetchData result:" + result);
             if(result === undefined || result.length == 0){
                navigate("/"); 
                return;
@@ -232,6 +240,28 @@ function CheckIdentification() {
             }
         });
     },[]);
+
+    /* 모바일 키패드 오픈 시 하단 고정 해제 */
+    const [isBottomFixed, setIsBottomFixed] = useState(true);
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    useEffect(() => {
+    
+        const handleResize = () => {
+            const newHeight = window.innerHeight;
+            if (newHeight < windowHeight) {
+                setIsBottomFixed(false);
+            } else {
+                setIsBottomFixed(true);
+            }
+            setWindowHeight(newHeight);
+        };
+
+        window.addEventListener('resize', handleResize);
+      
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
     return(
         
@@ -289,7 +319,7 @@ function CheckIdentification() {
                 </div>
             </div>
             <div className='div-holizonAlign-center'>
-                <button className='btn-hover' onClick={
+                <button className={`btn-hover ${isBottomFixed ? 'bottom-fixed' : ''}`} onClick={
                     e => {
                         CheckIdentificationYN(txt_birth_dt);
                     }
