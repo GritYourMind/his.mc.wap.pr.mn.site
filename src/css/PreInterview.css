@@ -125,10 +125,15 @@ body {
     box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.5);
   }
 
+  .bottom-fixed {
+    position: fixed;
+    bottom: 0;
+  }  
+
   .btn-hover {
     width: 90%;
     height: 10%;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     
     font-size: xx-large;
