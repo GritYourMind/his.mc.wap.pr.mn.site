@@ -86,6 +86,7 @@ function PreInterview(){
     useEffect(() => {
         const data = [
             {
+                "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
                 "method": "SelectPreMediQuesionList"
             },
             {
@@ -208,7 +209,13 @@ function PreInterview(){
             alert("모든 항목에 답이 작성되지 않았습니다.");
         }
         else{
-            const data = [{"method":"SavePreInterviewArray","HSP_TP_CD":"01"}];
+            const data = [
+                {
+                    "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
+                    "method":"SavePreInterviewArray",
+                    "HSP_TP_CD":"01"
+                }
+            ];
             submitInterview?.map(p=>(
                 data.push({"IN_ARR_HSP_TP_CD" : location.state.hsp_tp_cd,
                         "IN_ARR_MDRC_ID" : location.state.mdrc_id,
