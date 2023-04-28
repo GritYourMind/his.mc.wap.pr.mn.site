@@ -118,6 +118,7 @@ function CheckIdentification() {
         }
         const first_data = [
             {
+                "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
                 "method": "SelectPreWrittenYN"
             },
             {
@@ -146,6 +147,7 @@ function CheckIdentification() {
         
         const data = [
             {
+                "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
                 "method": "SelectPatientIdentificationYN"
             },
             {
@@ -213,6 +215,7 @@ function CheckIdentification() {
 
         const data = [
             {
+                "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
                 "method": "SelectPreMediIntroPageInfo"
             },
             {
