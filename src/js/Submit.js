@@ -22,6 +22,7 @@ function Submit() {
       /* 기존 작성 정보 update */
       const data = [
           {
+              "biz":"HIS.MC.WAP.PR.BIZ.PreMedicalRecordBL",
               "method": "SaveRewritePreinterview"
           },
           {
