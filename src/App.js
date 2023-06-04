@@ -6,6 +6,7 @@ import CheckIdentification from '../src/js/CheckIdentification';
 import Submit from './js/Submit';
 import PreInterview from '../src/js/PreInterview';
 import EmptyPage from '../src/js/EmptyPage';
+import QuestionAnswer from '../src/js/QuestionAnswer';
 import { BrowserView, MobileView } from 'react-device-detect'
 import {useState, useEffect, useRef} from 'react';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/ident" element={<CheckIdentification/>}></Route>
             <Route path="/preinterview" element={<PreInterview/>}></Route>
             <Route path="/submit" element={<Submit/>}></Route>
+            <Route path="/question" element={<QuestionAnswer/>}></Route>
             <Route path="/*" element={<EmptyPage/>}></Route>
             
           </Routes>
@@ -34,6 +36,7 @@ function App() {
               <Route path="/ident" element={<CheckIdentification/>}></Route>
               <Route path="/preinterview" element={<PreInterview/>}></Route>
               <Route path="/submit" element={<Submit/>}></Route>
+              <Route path="/question" element={<QuestionAnswer/>}></Route>
               <Route path="/*" element={<EmptyPage/>}></Route>
               
             </Routes>
