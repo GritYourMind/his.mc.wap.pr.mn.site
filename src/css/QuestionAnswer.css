@@ -1,0 +1,43 @@
+@media (min-width:0px) and (max-width:460px) {
+    .font-question-top{
+      font-size: calc(10px + 2vmin);
+    }
+  }
+  @media (min-width:460px) and (max-width:600px) {
+    .font-question-top{
+      font-size: calc(15px + 2vmin);
+    }
+  }
+  @media (min-width:600px) {
+    .font-question-top{
+      font-size: calc(20px + 2vmin);
+    }
+  }
+
+  .questionTop{
+    border-radius: 10px;
+    border-color: #655dbb;
+    border-style: solid;
+    position: center;
+    left: 2%;
+    right: 2%;
+    padding: 2%;
+    background-color: transparent;
+    width: 95%;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+  }
+
+
+.font-question-top {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    /* font-weight: 400; */
+    color: black;
+    -webkit-text-size-adjust : none;  /* 크롬, 사파리, 오페라 신버전 */
+    -ms-text-size-adjust : none;  /* IE */
+    -moz-text-size-adjust : none;  /* 파이어폭스 */
+    -o-text-size-adjust : none;  /* 오페라 구버전 */
+  }
