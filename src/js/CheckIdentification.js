@@ -59,7 +59,7 @@ function CheckIdentification() {
             return;
         }
 
-        navigate("/preinterview",{
+        navigate("/question",{
             state: {
                 hsp_tp_cd:hsp_tp_cd ,
                 mdrc_id:mdrc_id,

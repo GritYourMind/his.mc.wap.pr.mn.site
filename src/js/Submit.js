@@ -33,7 +33,7 @@ function Submit() {
       ];
         getFetchData(data, (result) => {
           /* 재작성 페이지 */
-          navigate("/preinterview",{
+          navigate("/question",{
             state: {
                 hsp_tp_cd: location.state.hsp_tp_cd ,
                 mdrc_id: result[0].MDRC_ID,
