@@ -4,6 +4,7 @@ import getFetchData from '../hooks/getFetchData';
 import QuestionAnswerBody from './QuesionAnswerBody';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../css/QuestionAnswer.css';
+
 function QuestionAnswer(){
 
     const location = useLocation();
@@ -32,7 +33,6 @@ function QuestionAnswer(){
 
         getFetchData(data, (result) => {
             setQuestions(result);
-            //setQuestion(result[0]);
             setQuesLength(result.length);
         });
     },[]);
@@ -57,7 +57,7 @@ function QuestionAnswer(){
     useEffect(() =>{
         let currentQuesNo;
         if(question){
-            currentQuesNo = question?.QST_NO;
+            currentQuesNo = question?.QST_DSP_SEQ;
         }else{
             currentQuesNo = "0";
         }
@@ -65,6 +65,8 @@ function QuestionAnswer(){
     },[question])
 
     function setAnswer(arrChkAns){
+
+        //console.log(arrChkAns);
         
         let updatedSaveInterview = [];
 
@@ -78,7 +80,7 @@ function QuestionAnswer(){
                 return;
             }
 
-            setAnsDoneYN(checkanswer.ANS_POST_QST_ID === "999" ? "Y" : "N");
+            setAnsDoneYN(checkanswer.ANS_POST_QST_ID === "END" ? "Y" : "N");
             setPostQstID(checkanswer.ANS_POST_QST_ID);
             
             let index = -1;
@@ -91,12 +93,11 @@ function QuestionAnswer(){
             
                 updatedSaveInterview.push({QST_ID: question.QST_ID,
                                             ANS_ID: checkanswer.ANS_ID,
-                                            ANS_CNTE : checkanswer.ANS_CNTE + checkanswer.ANS_RPY_CNTE});
+                                            REC_CNTE : (checkanswer.ANS_RPY_CNTE === undefined? "":checkanswer.ANS_RPY_CNTE)});
             }
         })
         SetSubmitInterview(updatedSaveInterview);
     }
-
 
     //제출하기 버튼 클릭
     function submit(){
@@ -114,7 +115,7 @@ function QuestionAnswer(){
                     "IN_ARR_MDRC_FOM_SEQ" : location.state.mdrc_fom_seq,
                     "IN_ARR_QST_ID" : p.QST_ID,
                     "IN_ARR_ANS_ID" : p.ANS_ID,
-                    "IN_ARR_ANS_CNTE" : p.ANS_CNTE,
+                    "IN_ARR_REC_CNTE" : p.REC_CNTE,
                     "IN_ARR_FSR_STF_NO" : "TEST",
                     "IN_ARR_FSR_PRGM_NM" : "사전문진표 작성",
                     "IN_ARR_FSR_IP_ADDR" : "."})))
@@ -139,28 +140,34 @@ function QuestionAnswer(){
     }
     else{
         return(
+
             <div className='div-verticalAlign'>
+                <br></br>
                 <div id='top'>
                     <div className='questionTop'>
                         <div className='div-holizonAlign-left'>
-                            <div className='font-question-top text-left'>진 료 과</div>
-                            <div className='font-question-top'>: {location.state.med_dept_nm}</div>
+                            <div className='font-question-top text-center'>진 료 과</div>
+                            <div className='top-colon'>:</div>
+                            <div className='font-question-top'>{location.state.med_dept_nm}</div>
                         </div>
                         <div className='div-holizonAlign-left'>
-                            <div className='font-question-top text-left'>예약일시</div>
-                            <div className='font-question-top'>: {location.state.med_rsv_dtm}</div>
+                            <div className='font-question-top text-center'>예약일시</div>
+                            <div className='top-colon'>:</div>
+                            <div className='font-question-top'>{location.state.med_rsv_dtm}</div>
                         </div>
                         <div className='div-holizonAlign-left'>
-                            <div className='font-question-top text-left'>성 명</div>
-                            <div className='font-question-top'>: {location.state.pt_nm}</div>
+                            <div className='font-question-top text-center'>성 명</div>
+                            <div className='top-colon'>:</div>
+                            <div className='font-question-top'> {location.state.pt_nm}</div>
                         </div>
 
                         <div className='progress-container'>
                             <progress value={progressRate} max={quesLength} />
-                            <span>{progressRate}/{quesLength}</span>    
+                            <span>{Math.round(progressRate*100/quesLength)}%</span>    
                         </div>
                     </div>
                 </div>
+                <br></br>
                 <QuestionAnswerBody question={question} callback={setAnswer}/>
             </div>
         );

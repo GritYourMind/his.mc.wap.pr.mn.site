@@ -7,26 +7,34 @@ import '../css/QuestionAnswerBody.css';
 //질문&답변 목록
 function QuestionAnswerBody({question, callback}){
     
-
     const answer = JSON.parse(question.ANS);
-    const [isBottomFixed, setIsBottomFixed] = useState(true);
+
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
     const [arrChkAns, SetArrChkAns] = useState([]);
 
-
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
     
     useEffect(() => {
         const handleResize = () => {
             const newHeight = window.innerHeight;
-
-            console.log("newHeight : " + newHeight + ", windowHeight : " + windowHeight);
-            if (newHeight < windowHeight) {
-                setIsBottomFixed(false);
-            } else {
-                setIsBottomFixed(true);
-            }
             setWindowHeight(newHeight);
+
+            const userAgent = navigator.userAgent.toLowerCase();
+
+            if(userAgent.indexOf("android")> -1){
+                const bodyHeight = document.body.offsetHeight;
+                const isKeyboardVisible = windowHeight > bodyHeight;
+                
+                setKeyboardVisible(isKeyboardVisible);
+
+                if(isKeyboardVisible){
+                    const top = document.getElementById('txtArea').clientHeight;
+                    window.scrollTo(top, 0, "smooth");
+                } else {
+                    window.scrollTo(0,0);
+                }
+            }
         };
 
         const preventClose = (e) => {
@@ -79,7 +87,7 @@ function QuestionAnswerBody({question, callback}){
                         tempUpdatedSaveAnswers.push({QST_ID: question.QST_ID,
                                                     ANS_ID: answer[chkAnsIndex].ANS_ID,
                                                     ANS_UNQ_ID : answer[chkAnsIndex].ANS_UNQ_ID,
-                                                    ANS_CNTE : "",
+                                                    REC_CNTE : "",
                                                     ANS_POST_QST_ID : answer[chkAnsIndex].ANS_POST_QST_ID
                                                     });
                         SetArrChkAns(tempUpdatedSaveAnswers);
@@ -105,7 +113,7 @@ function QuestionAnswerBody({question, callback}){
                 tempUpdatedSaveAnswers.push({QST_ID: question.QST_ID,
                                             ANS_ID: answer[chkAnsIndex].ANS_ID,
                                             ANS_UNQ_ID : answer[chkAnsIndex].ANS_UNQ_ID,
-                                            ANS_CNTE : e.target.value,
+                                            REC_CNTE : e.target.value,
                                             ANS_POST_QST_ID : answer[chkAnsIndex].ANS_POST_QST_ID
                                             });
                 SetArrChkAns(tempUpdatedSaveAnswers);
@@ -127,51 +135,56 @@ function QuestionAnswerBody({question, callback}){
 
     return(
         <div className='question-outer'>
-            <div id={question?.QST_NO} className='qustionBodyInner'>
+            <div id={question?.QST_DSP_SEQ} className='qustionBodyInner'>
                 <div>
                     <b className='question'>Q. {question?.QST_CNTE}</b>
                     
                     <div >
                         
-                    {answer?.map(ans=>(
-                        <div className='answerText' key={question.ANS_UNQ_ID}>
-                            
-                            {(question.QST_CCLS_CD === "S" ? true : false) &&
-                                <div>
-                                <input name={question.QST_ID} id={ans.ANS_UNQ_ID} type={'radio'} value={ans.ANS_ID} 
-                                     checked={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false}
-                                    onChange={getInputValue} />
-                                <label className='lb-question-cnte' htmlFor={ans.ANS_UNQ_ID}>{ans.ANS_CNTE}</label>
-                                </div>
-                             }
+                        {answer?.map(ans=>(
+                            <div>
+                                <div className='answerText' key={question.ANS_UNQ_ID}>
+                                    
+                                    {(question.QST_CLS_CD === "S" ? true : false) &&
+                                        <div>
+                                            <input name={question.QST_ID} id={ans.ANS_UNQ_ID} type={'radio'} value={ans.ANS_ID} 
+                                                checked={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false}
+                                                onChange={getInputValue} />
+                                            <label className='lb-question-cnte' htmlFor={ans.ANS_UNQ_ID}>{ans.ANS_CNTE}</label>
+                                        </div>
+                                    }
 
-                             {(question.QST_CCLS_CD === "M" ? true : false) &&
-                                <div>
-                                    <input name={question.QST_ID} id={ans.ANS_UNQ_ID} type={'checkbox'} value={ans.ANS_ID} 
-                                        checked={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false}
-                                        onChange={getInputValue} />
-                                    <label className='lb-question-cnte' htmlFor={ans.ANS_UNQ_ID}>{ans.ANS_CNTE}</label>
+                                    {(question.QST_CLS_CD === "M" ? true : false) &&
+                                        <div>
+                                            <input name={question.QST_ID} id={ans.ANS_UNQ_ID} type={'checkbox'} value={ans.ANS_ID} 
+                                                checked={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false}
+                                                onChange={getInputValue} />
+                                            <label className='lb-question-cnte' htmlFor={ans.ANS_UNQ_ID}>{ans.ANS_CNTE}</label>
+                                        </div>
+                                    }
                                 </div>
-                             }
-                                
+                                <div id='txtArea'>
+                                    
+                                    {(ans.ANS_CLS_CD === "I" ? true : false) &&  (arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false) &&
+                                    <textarea className='txt-ans-rpy-cnte answerText' id={ans.ANS_ID} type={'text'} 
+                                        disabled={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? false : true}
+                                        onChange={getInputValue} />
+                                        }
+                                </div>
+                            </div>
                             
-                            {(ans.ANS_CCLS_CD === "I" ? true : false) &&  (arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false) &&
-                            <textarea className='txt-ans-rpy-cnte answerText' id={ans.ANS_ID} type={'text'} 
-                                disabled={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? false : true}
-                                onChange={getInputValue}/>
-                                }
-                        </div>
-                        
-                    ))}
+                        ))}
                     
                     </div>
+                    <br/>
                 </div>
             </div>
             <div className='div-holizonAlign-center'>
-                <button className={`btn-question-hover ${isBottomFixed ? 'bottom-question-fixed' : ''}`} 
-                onClick={
-                    ()=>{
-                        callback(arrChkAns);
+                <button className={`btn-question-hover`} // /*버튼 하단고정 기능 삭제*/ ${isBottomFixed ? 'bottom-question-fixed' : ''}`} 
+                onClick={() => {
+                        if(arrChkAns.length > 0){
+                            callback(arrChkAns);
+                        }
                     }
                 }>다 음</button>
             </div>

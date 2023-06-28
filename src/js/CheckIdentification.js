@@ -1,5 +1,5 @@
 
-import {React, useState,useEffect, useParams} from 'react';
+import {React, useState,useEffect} from 'react';
 import '../css/CheckIdentification.css'
 import '../App.css'
 import getUrlParam from '../hooks/getUrlParameter';
@@ -251,11 +251,14 @@ function CheckIdentification() {
     
         const handleResize = () => {
             const newHeight = window.innerHeight;
+            /*버튼 하단고정 기능 삭제*/
+            /*
             if (newHeight < windowHeight) {
                 setIsBottomFixed(false);
             } else {
                 setIsBottomFixed(true);
             }
+            */
             setWindowHeight(newHeight);
         };
 
@@ -322,8 +325,8 @@ function CheckIdentification() {
                 </div>
             </div>
             <div className='div-holizonAlign-center'>
-                <button className={`btn-hover ${isBottomFixed ? 'bottom-fixed' : ''}`} onClick={
-                    e => {
+                <button className={`btn-hover`} // /*버튼 하단고정 기능 삭제*/ ${isBottomFixed ? 'bottom-fixed' : ''}`} 
+                    onClick={e => {
                         CheckIdentificationYN(txt_birth_dt);
                     }
                 }>확 인</button>
