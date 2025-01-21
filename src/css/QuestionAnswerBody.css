@@ -67,9 +67,37 @@
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
 
-    background-image: linear-gradient(to right, #bface2, #3e54ac, #655dbb);
-    /* background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673); */
+    background-image: linear-gradient(to right, #acb3e2, #3e54ac, #655dbb);
     box-shadow: 0 4px 15px 0 #bface2; /*rgba(49, 196, 190, 0.75);*/
+}
+
+.btn-question-back-hover {
+
+  width: 90%;
+  
+  font-size: xx-large;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+
+  border-style: none;
+  border-radius: 50px; /* 10px */
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+
+  background-image: linear-gradient(to right, #7ecfb2, #3d95a6, #12b2d2);
+  box-shadow: 0 4px 15px 0 #bface2; /*rgba(49, 196, 190, 0.75);*/
 }
 
 .btn-question-hover:hover {

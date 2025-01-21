@@ -11,7 +11,7 @@ function CheckIdentification() {
     //#region State
     //url param
     const hsp_tp_cd = (getUrlParam(window.location, "H"));
-    const mdrc_id = (getUrlParam(window.location, "M"));
+    const mbrc_id = (getUrlParam(window.location, "M"));
 
     //fetch data
     const [pt_no, setPtno] = useState("");
@@ -20,9 +20,12 @@ function CheckIdentification() {
     const [med_dept_nm, setMedDeptNm] = useState("");
 
     const [med_rsv_dtm, setMedRsvDtm] = useState("");
-    const [mdrc_fom_seq, setMdrcFomSeq] = useState("");
-    const [mdfm_id, setMdfmId] = useState("");
-    const [mdfm_fom_seq, setMdfmFomSeq] = useState("");
+    const [mbrc_fom_seq, setMbrcFomSeq] = useState("");
+    const [mbfm_id, setMbfmId] = useState("");
+    const [mbfm_fom_seq, setMbfmFomSeq] = useState("");
+    const [mtm_arvl_yn, setMtmArvlYn] = useState("");
+    const [hsp_arvl_yn, setHspArvlYn] = useState("");
+    const [info_cnte, setInfoCnte] = useState("");
 
 
     //valiable
@@ -39,21 +42,26 @@ function CheckIdentification() {
 
      //#region function
 
-     function RoutePreinterview(in_login_yn){
+     function RoutePreinterview(in_login_yn, in_apcn_yn, in_med_yn){
+        
 
-        if(in_login_yn == "Y"){
+        if(in_login_yn === "Y"){
             navigate("/submit",{
                 state: {
                     hsp_tp_cd:hsp_tp_cd ,
-                    mdrc_id:mdrc_id,
+                    mbrc_id:mbrc_id,
                     med_dept_nm:med_dept_nm,
                     med_dt:med_dt,
                     med_rsv_dtm:med_rsv_dtm,
                     pt_no:pt_no,
                     pt_nm:pt_nm,
-                    mdrc_fom_seq:mdrc_fom_seq,
-                    mdfm_id:mdfm_id,
-                    mdfm_fom_seq:mdfm_fom_seq
+                    mbrc_fom_seq:mbrc_fom_seq,
+                    mbfm_id:mbfm_id,
+                    mbfm_fom_seq:mbfm_fom_seq, 
+                    mtm_avrl_yn:mtm_arvl_yn,
+                    hsp_avrl_yn:hsp_arvl_yn, 
+                    info_cnte:info_cnte
+                    
                 }
             });
             return;
@@ -62,15 +70,18 @@ function CheckIdentification() {
         navigate("/question",{
             state: {
                 hsp_tp_cd:hsp_tp_cd ,
-                mdrc_id:mdrc_id,
+                mbrc_id:mbrc_id,
                 med_dept_nm:med_dept_nm,
                 med_dt:med_dt,
                 med_rsv_dtm:med_rsv_dtm,
                 pt_no:pt_no,
                 pt_nm:pt_nm,
-                mdrc_fom_seq:mdrc_fom_seq,
-                mdfm_id:mdfm_id,
-                mdfm_fom_seq:mdfm_fom_seq
+                mbrc_fom_seq:mbrc_fom_seq,
+                mbfm_id:mbfm_id,
+                mbfm_fom_seq:mbfm_fom_seq,
+                mtm_avrl_yn:mtm_arvl_yn,
+                hsp_avrl_yn:hsp_arvl_yn, 
+                info_cnte:info_cnte
             }
           });
      }
@@ -123,14 +134,13 @@ function CheckIdentification() {
             },
             {
                 "HSP_TP_CD": hsp_tp_cd,
-                "MDRC_ID": mdrc_id
+                "MBRC_ID": mbrc_id
             }
         ];
          getFetchData(first_data, (result) => {
             
-            //if(result[0].MDRC_WRT_STS_CD != "N"?"Y":"N"){
-                RoutePreinterview(result[0].MDRC_WRT_STS_CD != "N"?"Y":"N");
-            //}
+            RoutePreinterview((result[0].MBRC_WRT_STS_CD != "N"?"Y":"N"), result[0].APCN_YN, result[0].MED_YN);
+            
         });
 
         
@@ -152,7 +162,7 @@ function CheckIdentification() {
             },
             {
                 "HSP_TP_CD": hsp_tp_cd,
-                "MDRC_ID": mdrc_id,
+                "MBRC_ID": mbrc_id,
                 "BIRTH_DT": in_birth_dt.replace(/-/gi,"")
             }
         ];
@@ -208,7 +218,7 @@ function CheckIdentification() {
             return;
         }
 
-        if(mdrc_id == undefined || mdrc_id == null){
+        if(mbrc_id == undefined || mbrc_id == null){
             navigate("/");
             return;
         }
@@ -220,7 +230,7 @@ function CheckIdentification() {
             },
             {
                 "HSP_TP_CD": hsp_tp_cd,
-                "MDRC_ID": mdrc_id
+                "MBRC_ID": mbrc_id
             }
         ];
     
@@ -229,18 +239,32 @@ function CheckIdentification() {
                navigate("/"); 
                return;
             }
-            else{
-                result?.map((n) => (
-                    setPtno(n.PT_NO),
-                    setPtnm(n.PT_NM),
-                    setMedDt(n.MED_DT),
-                    setMedDeptNm(n.MED_DEPT_NM),
-                    setMedRsvDtm(n.MED_RSV_DTM),
-                    setMdrcFomSeq(n.MDRC_FOM_SEQ),
-                    setMdfmId(n.MDFM_ID),
-                    setMdfmFomSeq(n.MDFM_FOM_SEQ)
-                ));
+
+            if(result[0].APCN_YN === "Y"){
+                ///취소되었습니다.
+                navigate("/cancel");
+                return;
             }
+
+            if(result[0].MED_YN === "Y"){
+                ///진료가 끝났습니다.
+                navigate("/finish");
+                return;
+            }
+
+            result?.map((n) => (
+                setPtno(n.PT_NO),
+                setPtnm(n.PT_NM),
+                setMedDt(n.MED_DT),
+                setMedDeptNm(n.MED_DEPT_NM),
+                setMedRsvDtm(n.MED_RSV_DTM),
+                setMbrcFomSeq(n.MBRC_FOM_SEQ),
+                setMbfmId(n.MBFM_ID),
+                setMbfmFomSeq(n.MBFM_FOM_SEQ),
+                setMtmArvlYn(n.MTM_ARVL_YN),
+                setHspArvlYn(n.HSP_ARVL_YN),
+                setInfoCnte(n.INFO_CNTE)
+            ));
         });
     },[]);
 
@@ -251,14 +275,6 @@ function CheckIdentification() {
     
         const handleResize = () => {
             const newHeight = window.innerHeight;
-            /*버튼 하단고정 기능 삭제*/
-            /*
-            if (newHeight < windowHeight) {
-                setIsBottomFixed(false);
-            } else {
-                setIsBottomFixed(true);
-            }
-            */
             setWindowHeight(newHeight);
         };
 

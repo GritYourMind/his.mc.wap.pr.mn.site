@@ -276,21 +276,4 @@ function PreInterview(){
     )
 }
 
-/* <div ref={outerDivRef} className='outer'>
-        <div className='header'>
-            <label className='top-text'> 충북대학교병원<br/>사전문진표<br/></label>
-            <label className='text'>{location.state.pt_nm}님의 {location.state.med_dt} {location.state.med_dept_nm} 사전문진표입니다.</label>
-        </div>
-
-        <div>
-            {questions?.map(question => (
-                <Question question={question} />
-            ))}
-        </div>
-
-        <div>
-            <button className='submit' onClick={() => submit()}>제출하기</button>
-        </div>
-    </div> */
-
 export default PreInterview;

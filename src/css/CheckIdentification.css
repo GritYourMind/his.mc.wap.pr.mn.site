@@ -11,6 +11,9 @@
   .input-text{
     font-size: calc(15px + 2vmin);
   }
+  .font-inner-info{
+    font-size:calc(10px + 2vmin);
+  }
 }
 @media (min-width:460px) and (max-width:600px) {
   .font-ptnm{
@@ -25,6 +28,9 @@
   .input-text{
     font-size: calc(20px + 2vmin);
   }
+  .font-inner-info{
+    font-size:calc(10px + 2vmin);
+  }
 }
 @media (min-width:600px) {
   .font-ptnm{
@@ -38,6 +44,9 @@
   }
   .input-text{
     font-size: calc(25px + 2vmin);
+  }
+  .font-inner-info{
+    font-size:calc(10px + 2vmin);
   }
 }
 
@@ -84,6 +93,20 @@
   -moz-text-size-adjust : none;  /* 파이어폭스 */
   -o-text-size-adjust : none;  /* 오페라 구버전 */
   
+}
+
+.font-inner-info{
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  margin: 3%;
+  color: black;
+  -webkit-text-size-adjust : none;  /* 크롬, 사파리, 오페라 신버전 */
+  -ms-text-size-adjust : none;  /* IE */
+  -moz-text-size-adjust : none;  /* 파이어폭스 */
+  -o-text-size-adjust : none;  /* 오페라 구버전 */
 }
 
 .div-verticalAlign{

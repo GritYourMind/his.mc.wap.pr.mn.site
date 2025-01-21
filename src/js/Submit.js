@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import { useNavigate, useLocation }from 'react-router-dom';
 import getFetchData from '../hooks/getFetchData';
 import '../App.css'
-import '../css/CheckIdentification.css'
-import '../css/submit.css'
+// import '../css/CheckIdentification.css'
+// import '../css/submit.css'
 
 function Submit() { 
   const location = useLocation();
@@ -27,8 +27,8 @@ function Submit() {
           },
           {
               "HSP_TP_CD": location.state.hsp_tp_cd,
-              "MDRC_ID": location.state.mdrc_id,
-              "MDRC_FOM_SEQ": location.state.mdrc_fom_seq
+              "MBRC_ID": location.state.mbrc_id,
+              "MBRC_FOM_SEQ": location.state.mbrc_fom_seq
           }
       ];
         getFetchData(data, (result) => {
@@ -36,15 +36,15 @@ function Submit() {
           navigate("/question",{
             state: {
                 hsp_tp_cd: location.state.hsp_tp_cd ,
-                mdrc_id: result[0].MDRC_ID,
+                mbrc_id: result[0].MBRC_ID,
                 med_dept_nm: result[0].MED_DEPT_NM,
                 med_dt: result[0].MED_DT,
                 med_rsv_dtm: result[0].MED_RSV_DTM,
                 pt_no: result[0].PT_NO,
                 pt_nm: result[0].PT_NM,
-                mdrc_fom_seq: result[0].MDRC_FOM_SEQ,
-                mdfm_id: result[0].MDFM_ID,
-                mdfm_fom_seq: result[0].MDFM_FOM_SEQ
+                mbrc_fom_seq: result[0].MBRC_FOM_SEQ,
+                mbfm_id: result[0].MBFM_ID,
+                mbfm_fom_seq: result[0].MBFM_FOM_SEQ
             }
           });
           window.location.reload(true);
@@ -64,6 +64,10 @@ function Submit() {
           <div className='font-default'>
               이 완료되었습니다.
           </div>
+        </div>
+
+        <div className='div-holizonAlign-center'>
+          <div className='font-inner-info'>{location.state.info_cnte}</div>
         </div>
 
         <div className='div-holizonAlign-center'>

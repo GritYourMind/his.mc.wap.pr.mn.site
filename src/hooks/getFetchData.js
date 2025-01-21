@@ -1,7 +1,7 @@
 
 const getFetchData = async(data, callback) => {
-    fetch(process.env.REACT_APP_HOST, {
-    //fetch('/bcexternal', {
+    //fetch(process.env.REACT_APP_HOST, {
+    fetch('/bcexternal', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {

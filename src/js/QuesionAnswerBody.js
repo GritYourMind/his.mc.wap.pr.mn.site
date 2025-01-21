@@ -5,7 +5,7 @@ import '../css/QuestionAnswerBody.css';
 
 
 //질문&답변 목록
-function QuestionAnswerBody({question, callback}){
+function QuestionAnswerBody({question, nextQuestionCallback, backQuestionCallback, arrDefaultChkAns}){
     
     const answer = JSON.parse(question.ANS);
 
@@ -14,6 +14,8 @@ function QuestionAnswerBody({question, callback}){
     const [arrChkAns, SetArrChkAns] = useState([]);
 
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    const [isAnsChecked, SetAnsChecked] = useState(true);
     
     useEffect(() => {
         const handleResize = () => {
@@ -55,8 +57,9 @@ function QuestionAnswerBody({question, callback}){
 
 
     useEffect(()=>{
-        
-    },[question]);
+        SetArrChkAns(arrDefaultChkAns);
+        console.log(arrDefaultChkAns);
+    },[arrDefaultChkAns]);
 
     function getInputValue(e) {
 
@@ -66,23 +69,22 @@ function QuestionAnswerBody({question, callback}){
 
             if(chkAnsIndex < 0){
                 // not found answer then error! 
-                //console.log('getInputValue, not found checked value in answer.');
                 return;
             }
 
             if(e.target.type === "checkbox" ){
-                //console.log("e.target.type is checkbox.");
+                
                 if(e.target.checked === true){
-                    //console.log("e.target.checked is true. so insert item.");
+                
                     // checked then insert 
                     const existsChkAnsIndex = arrChkAns.findIndex(ans => ans.ANS_UNQ_ID === e.target.id);
 
                     if(existsChkAnsIndex > -1){
                         // included item
-                        //console.log("included item.");
+                        
                     }else{
                         // not found item then insert
-                        //console.log("insert into the item.");
+
                         const tempUpdatedSaveAnswers = [...arrChkAns];
                         tempUpdatedSaveAnswers.push({QST_ID: question.QST_ID,
                                                     ANS_ID: answer[chkAnsIndex].ANS_ID,
@@ -94,16 +96,13 @@ function QuestionAnswerBody({question, callback}){
                     }
                 }else{
                     // unchecked then remove
-                    //console.log("e.target.checked is false. so remove item.");
                     const existsChkAnsIndex = arrChkAns.findIndex(ans => ans.ANS_ID === e.target.value);
 
                     if(existsChkAnsIndex > -1){
                         // remove item
-                        //console.log("remove item.");
                         SetArrChkAns(arrChkAns.filter(ans => ans.ANS_ID !== e.target.value));
                     }else{
                         //console.log("not found item.");
-                        // not found item.
                     }
                 }
             }
@@ -113,7 +112,7 @@ function QuestionAnswerBody({question, callback}){
                 tempUpdatedSaveAnswers.push({QST_ID: question.QST_ID,
                                             ANS_ID: answer[chkAnsIndex].ANS_ID,
                                             ANS_UNQ_ID : answer[chkAnsIndex].ANS_UNQ_ID,
-                                            REC_CNTE : e.target.value,
+                                            REC_CNTE : "",
                                             ANS_POST_QST_ID : answer[chkAnsIndex].ANS_POST_QST_ID
                                             });
                 SetArrChkAns(tempUpdatedSaveAnswers);
@@ -122,13 +121,14 @@ function QuestionAnswerBody({question, callback}){
         }
         if(e.target.type === "textarea" ){
 
-            //console.log("getInputValue text, input value : " + e.target.value + ", e.target.id : " + e.target.id);
-            const existsChkAnsIndex = arrChkAns.findIndex(ans => ans.ANS_ID === e.target.id);
+            const existsChkAnsIndex = arrChkAns.findIndex(ans => ans.ANS_UNQ_ID === e.target.id);
 
+            
             const temp = [...arrChkAns];
-            temp[existsChkAnsIndex].ANS_RPY_CNTE = e.target.value;
-            // SetArrChkAns(temp);
+            
+            temp[existsChkAnsIndex].REC_CNTE = e.target.value;
 
+            SetArrChkAns(temp);
         }
         
     }
@@ -166,7 +166,8 @@ function QuestionAnswerBody({question, callback}){
                                 <div id='txtArea'>
                                     
                                     {(ans.ANS_CLS_CD === "I" ? true : false) &&  (arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? true : false) &&
-                                    <textarea className='txt-ans-rpy-cnte answerText' id={ans.ANS_ID} type={'text'} 
+                                    <textarea className='txt-ans-rpy-cnte answerText' id={ans.ANS_UNQ_ID} type={'text'} 
+                                        defaultValue={arrChkAns[arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID)].REC_CNTE}
                                         disabled={arrChkAns.findIndex(i => i.ANS_UNQ_ID === ans.ANS_UNQ_ID) > -1 ? false : true}
                                         onChange={getInputValue} />
                                         }
@@ -179,14 +180,21 @@ function QuestionAnswerBody({question, callback}){
                     <br/>
                 </div>
             </div>
+
             <div className='div-holizonAlign-center'>
-                <button className={`btn-question-hover`} // /*버튼 하단고정 기능 삭제*/ ${isBottomFixed ? 'bottom-question-fixed' : ''}`} 
-                onClick={() => {
-                        if(arrChkAns.length > 0){
-                            callback(arrChkAns);
+                <button className={`btn-question-back-hover`} // /*버튼 하단고정 기능 삭제*/ ${isBottomFixed ? 'bottom-question-fixed' : ''}`} 
+                    onClick={() => {
+                            console.log("back buttion click");
+                            backQuestionCallback(arrChkAns);
                         }
-                    }
-                }>다 음</button>
+                    }>이 전</button>
+                <button className={`btn-question-hover`} // /*버튼 하단고정 기능 삭제*/ ${isBottomFixed ? 'bottom-question-fixed' : ''}`} 
+                    onClick={() => {
+                            
+                        SetAnsChecked(true);
+                        nextQuestionCallback(arrChkAns);                    
+                        }
+                    }>다 음</button>
             </div>
             
         </div>

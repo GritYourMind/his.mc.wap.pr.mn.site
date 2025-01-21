@@ -16,6 +16,8 @@ function QuestionAnswer(){
     const [quesLength, setQuesLength] = useState("0");
     const [progressRate, setProgressRate] = useState("0");
     const [postQstID, setPostQstID] = useState("0");
+    const [defaultAns, SetDefaultAns] = useState([]);
+    const [isBackButton, SetIsBackButton] = useState(false);
 
     useEffect(() => {
 
@@ -26,8 +28,8 @@ function QuestionAnswer(){
             },
             {
                 "HSP_TP_CD": location.state.hsp_tp_cd,
-                "MDFM_ID": location.state.mdfm_id,
-                "MDFM_FOM_SEQ": location.state.mdfm_fom_seq
+                "MBFM_ID": location.state.mbfm_id,
+                "MBFM_FOM_SEQ": location.state.mbfm_fom_seq
             }
         ];
 
@@ -38,11 +40,18 @@ function QuestionAnswer(){
     },[]);
 
     useEffect(() =>{
-        
+        if(isBackButton === true){
+            return;
+        }
+
         if(ansDoneYN === "Y"){
             submit();
         }else{
-            setQuestion(questions[questions.findIndex(item => item.QST_ID === postQstID)]);
+            if(submitInterview.findIndex(item => item.QST_ID === postQstID) >= 0 ){
+                SetDefaultAns(submitInterview.filter(item => item.QST_ID === postQstID));
+            }else{
+                setQuestion(questions[questions.findIndex(item => item.QST_ID === postQstID)]);
+            }
         }
         
     },[submitInterview]);
@@ -64,14 +73,17 @@ function QuestionAnswer(){
         setProgressRate(currentQuesNo);
     },[question])
 
-    function setAnswer(arrChkAns){
+    useEffect(() => {
+        setQuestion(questions[questions.findIndex(item => item.QST_ID === defaultAns[0].QST_ID)]);
+    },[defaultAns])
 
-        //console.log(arrChkAns);
+    function setAnswer(arrChkAns){
         
+        SetIsBackButton(false);
         let updatedSaveInterview = [];
 
         arrChkAns.map(removeItem => {
-            updatedSaveInterview = (submitInterview.filter(item => (item.QST_ID+item.ANS_ID) !== (question.QST_ID+removeItem.ANS_ID) ));
+            updatedSaveInterview = (submitInterview.filter(item => (item.QST_ID) !== (question.QST_ID) ));
         })
 
         arrChkAns.map(checkanswer => {
@@ -93,10 +105,33 @@ function QuestionAnswer(){
             
                 updatedSaveInterview.push({QST_ID: question.QST_ID,
                                             ANS_ID: checkanswer.ANS_ID,
-                                            REC_CNTE : (checkanswer.ANS_RPY_CNTE === undefined? "":checkanswer.ANS_RPY_CNTE)});
+                                            ANS_UNQ_ID : checkanswer.ANS_UNQ_ID, 
+                                            REC_CNTE : (checkanswer.REC_CNTE === undefined? "":checkanswer.REC_CNTE),
+                                            ANS_POST_QST_ID : checkanswer.ANS_POST_QST_ID
+                                        });
             }
         })
         SetSubmitInterview(updatedSaveInterview);
+    }
+
+
+    function setBackQuestion(){
+        SetIsBackButton(true);
+        console.log("setBackQuestion Call, submitInterview length " + submitInterview.length);
+
+         SetSubmitInterview(submitInterview.filter(item => (item.QST_ID) !== (question.QST_ID) ));
+
+        if(submitInterview.length > 0){
+            console.log("question.QST_ID is " + question.QST_ID);
+
+            let pre_qst_index = submitInterview.findIndex(item => item.ANS_POST_QST_ID === question.QST_ID);
+
+            if(pre_qst_index >= 0 ){
+                console.log("setBackQuestion Call, pre_qst_index " + pre_qst_index);
+                SetDefaultAns(submitInterview.filter(item => item.QST_ID === submitInterview[pre_qst_index].QST_ID));
+            }
+            
+        }
     }
 
     //제출하기 버튼 클릭
@@ -111,13 +146,13 @@ function QuestionAnswer(){
         ];
         submitInterview?.map(p=>(
             data.push({"IN_ARR_HSP_TP_CD" : location.state.hsp_tp_cd,
-                    "IN_ARR_MDRC_ID" : location.state.mdrc_id,
-                    "IN_ARR_MDRC_FOM_SEQ" : location.state.mdrc_fom_seq,
+                    "IN_ARR_MBRC_ID" : location.state.mbrc_id,
+                    "IN_ARR_MBRC_FOM_SEQ" : location.state.mbrc_fom_seq,
                     "IN_ARR_QST_ID" : p.QST_ID,
                     "IN_ARR_ANS_ID" : p.ANS_ID,
                     "IN_ARR_REC_CNTE" : p.REC_CNTE,
-                    "IN_ARR_FSR_STF_NO" : "TEST",
-                    "IN_ARR_FSR_PRGM_NM" : "사전문진표 작성",
+                    "IN_ARR_FSR_STF_NO" : ".",
+                    "IN_ARR_FSR_PRGM_NM" : "사전문진웹",
                     "IN_ARR_FSR_IP_ADDR" : "."})))
 
         getFetchData(data, (result) => {
@@ -168,7 +203,7 @@ function QuestionAnswer(){
                     </div>
                 </div>
                 <br></br>
-                <QuestionAnswerBody question={question} callback={setAnswer}/>
+                <QuestionAnswerBody question={question} nextQuestionCallback={setAnswer} backQuestionCallback={setBackQuestion} arrDefaultChkAns={defaultAns}/>
             </div>
         );
     }
